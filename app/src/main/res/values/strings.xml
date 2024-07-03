@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">proyecto_tesis</string>
+    <string name="olvido_contrasenia_header">Olvido su contrasenia</string>
+    <string name="correo_electronico_label">Correo Electronico</string>
+    <string name="recuperar_contrasenia_button">Recuperar contrasenia</string>
+    <string name="default_web_client_id" translatable="false">Id del Cliente</string>
+</resources>
