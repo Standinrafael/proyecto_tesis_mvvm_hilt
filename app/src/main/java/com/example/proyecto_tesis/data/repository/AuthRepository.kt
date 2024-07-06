@@ -14,8 +14,10 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import kotlinx.coroutines.tasks.await
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 
@@ -141,15 +143,34 @@ class AuthRepository @Inject constructor(
     }
 
     private suspend fun getNextIdFromFirestore(): Int {
-        // Implementación para obtener el próximo ID de Firestore
-        // Aquí debes implementar cómo obtener el próximo ID. Podría ser consultando la base de datos o alguna lógica específica.
-        // Placeholder: simplemente incrementar el ID estáticamente
-        User.nextId += 1
-        return User.nextId
+
+        val querySnapshot = firestore.collection("users")
+            .orderBy("id", Query.Direction.DESCENDING)
+            .limit(1)
+            .get()
+            .await()
+
+        return if (querySnapshot.isEmpty) {
+
+            // Si no hay documentos, el primero se crea con id 1
+            1
+        } else {
+
+            // Si ya existe valores altos, se coge el mas alto y se suma 1 la id del nuevo usuario
+            val lastDocument = querySnapshot.documents.first()
+            val lastId = lastDocument.getLong("id")?.toInt() ?: 0
+            lastId + 1
+        }
     }
 
     private fun obtainDate(): String {
         // Implementación para obtener la fecha
-        return LocalDateTime.now().toString()
+        //Variable para obtener la fecha actual
+        val currentDateTime = LocalDateTime.now()
+
+        //Envair el tipo de formato: 16 caracteres para usarlo de contrasenia
+        val formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmssSS")
+
+        return currentDateTime.format(formatter)
     }
 }

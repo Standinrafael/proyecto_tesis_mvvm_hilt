@@ -33,12 +33,15 @@ class AuthViewModel @Inject constructor(
     private val _authState = MutableLiveData<AuthRes<FirebaseUser?>>()
     val authState: LiveData<AuthRes<FirebaseUser?>> get() = _authState
 
-    fun createUserWithEmailandPassword(email: String, password: String) {
+    fun createUserWithEmailandPassword(email: String, password: String): LiveData<AuthRes<FirebaseUser?>> {
+        val authResult = MutableLiveData<AuthRes<FirebaseUser?>>()
         viewModelScope.launch {
             val result = authUseCases.createUserWithEmailandPassword(email, password)
-            _authState.value = result
+            authResult.value = result
         }
+        return authResult
     }
+
 
 
     fun signInWithEmailandPassword(email: String, password: String): LiveData<AuthRes<FirebaseUser?>> {
@@ -64,10 +67,13 @@ class AuthViewModel @Inject constructor(
         authUseCases.signOut()
     }
 
-    fun resetPassword(email: String) {
+    fun resetPassword(email: String): LiveData<AuthRes<Unit>> {
+        val resetResult = MutableLiveData<AuthRes<Unit>>()
         viewModelScope.launch {
-            authUseCases.resetPassword(email)
+            val result = authUseCases.resetPassword(email)
+            resetResult.value = result
         }
+        return resetResult
     }
 
     fun handleSignInResult(task: Task<GoogleSignInAccount>): AuthRes<GoogleSignInAccount>? {
@@ -101,6 +107,25 @@ class AuthViewModel @Inject constructor(
     fun signInWithGoogle(googleSignInLauncher: ActivityResultLauncher<Intent>) {
         val signInIntent = googleSignInClient.signInIntent
         googleSignInLauncher.launch(signInIntent)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun signUp(email: String, password: String): LiveData<AuthRes<FirebaseUser?>> {
+        val signUpResult = MutableLiveData<AuthRes<FirebaseUser?>>()
+        viewModelScope.launch {
+            if (email.isNotEmpty() && password.isNotEmpty() && password.length >= 6) {
+                val result = authUseCases.createUserWithEmailandPassword(email, password)
+                if (result is AuthRes.Success) {
+                    authUseCases.createUser()
+                }
+                signUpResult.value = result
+            } else if ((password.length < 6 && password.length > 0) && email.isNotEmpty()) {
+                signUpResult.value = AuthRes.Error("La contraseña debe tener al menos 6 caracteres")
+            } else {
+                signUpResult.value = AuthRes.Error("Existen campos vacíos")
+            }
+        }
+        return signUpResult
     }
 
 }

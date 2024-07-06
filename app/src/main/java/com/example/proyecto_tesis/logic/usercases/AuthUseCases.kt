@@ -61,4 +61,6 @@ class AuthUseCases @Inject constructor(
     suspend fun createGoogleUser(firebaseUser: FirebaseUser): AuthRes<DocumentReference> {
         return authRepository.createGoogleUser(firebaseUser)
     }
+
+
 }
