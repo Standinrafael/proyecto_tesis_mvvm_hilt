@@ -350,7 +350,7 @@ fun BottomNavGraph(
             DecodeScreen(navController)
         }
         composable(route = BottomNavScreen.Information.route) {
-            InformationScreen(navController)
+            InformationScreen()
         }
     }
 }

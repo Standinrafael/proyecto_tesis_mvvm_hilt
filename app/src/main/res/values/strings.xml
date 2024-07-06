@@ -4,4 +4,20 @@
     <string name="correo_electronico_label">Correo Electronico</string>
     <string name="recuperar_contrasenia_button">Recuperar contrasenia</string>
     <string name="default_web_client_id" translatable="false">Id del Cliente</string>
+    <string name="university_name">UNIVERSIDAD CENTRAL DEL ECUADOR</string>
+    <string name="developers_label">Desarrolladores:</string>
+    <string name="developer_one">Dennis Alexander Pilco</string>
+    <string name="developer_two">Jorge Luis Sánchez</string>
+    <string name="tutor_label">Tutor:</string>
+    <string name="tutor_name">Msc. Bayron Fabricio Torres</string>
+    <string name="degree_label">Carrera:</string>
+    <string name="degree_name">Ing. en Ciencias de la Computación</string>
+    <string name="semester">2024 - 2024</string>
+    <string name="forgot_password">Olvidó su contraseña</string>
+    <string name="email_hint">Correo electrónico</string>
+    <string name="recover_password">Recuperar contraseña</string>
+    <string name="back_to_menu">Regresar al menú de inicio</string>
+    <string name="send_email_success">Correo enviado</string>
+    <string name="send_email_error">Error al enviar el correo</string>
+    <string name="invalid_email_format">Formato de correo electrónico inválido</string>
 </resources>
