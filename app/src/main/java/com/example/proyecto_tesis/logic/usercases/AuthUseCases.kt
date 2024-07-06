@@ -9,6 +9,8 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentReference
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
 import javax.inject.Inject
 
 
@@ -23,8 +25,8 @@ class AuthUseCases @Inject constructor(
         return authRepository.signInWithEmailandPassword(email, password)
     }
 
-    fun getCurrentUser(): FirebaseUser? {
-        return authRepository.getCurrentUser()
+    fun getCurrentUser(): Flow<FirebaseUser?> {
+        return flowOf(authRepository.getCurrentUser())
     }
 
     suspend fun deleteCurrentUser(): Boolean {

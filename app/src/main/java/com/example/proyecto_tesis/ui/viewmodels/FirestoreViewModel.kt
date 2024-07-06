@@ -40,11 +40,8 @@ class FirestoreViewModel @Inject constructor(
         }
     }
 
-    fun deleteUserByAuthUID(authUID: String) {
-        viewModelScope.launch {
-            val status = firestoreUseCases.deleteUserByAuthUID(authUID)
-            _deleteUserStatus.value = status
-        }
+    suspend fun deleteUserByAuthUID(authUID: String):Boolean {
+        return firestoreUseCases.deleteUserByAuthUID(authUID)
     }
 
     fun getUserPassword(id: Int?) {

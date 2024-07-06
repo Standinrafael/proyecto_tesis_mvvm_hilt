@@ -19,6 +19,9 @@ import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -32,6 +35,12 @@ class AuthViewModel @Inject constructor(
 
     private val _authState = MutableLiveData<AuthRes<FirebaseUser?>>()
     val authState: LiveData<AuthRes<FirebaseUser?>> get() = _authState
+
+    val currentUser: StateFlow<FirebaseUser?> = authUseCases.getCurrentUser().stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = null
+    )
 
     fun createUserWithEmailandPassword(email: String, password: String): LiveData<AuthRes<FirebaseUser?>> {
         val authResult = MutableLiveData<AuthRes<FirebaseUser?>>()
@@ -53,14 +62,14 @@ class AuthViewModel @Inject constructor(
         return authResult
     }
 
-    fun getCurrentUser(): FirebaseUser? {
-        return authUseCases.getCurrentUser()
+
+
+    suspend fun deleteCurrentUser(): Boolean {
+        return authUseCases.deleteCurrentUser()
     }
 
-    fun deleteCurrentUser() {
-        viewModelScope.launch {
-            authUseCases.deleteCurrentUser()
-        }
+    fun getCurrentUid(): String? {
+        return authUseCases.getCurrentUid()
     }
 
     fun signOut() {
@@ -127,5 +136,7 @@ class AuthViewModel @Inject constructor(
         }
         return signUpResult
     }
+
+
 
 }
