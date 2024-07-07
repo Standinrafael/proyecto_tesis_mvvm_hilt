@@ -43,6 +43,14 @@ class SteganographyViewModel @Inject constructor(
     private val _isEncrypting = MutableStateFlow(false)
     val isEncrypting: StateFlow<Boolean> get() = _isEncrypting
 
+
+    private val _characterCount = MutableStateFlow(0)
+    val characterCount: StateFlow<Int> get() = _characterCount
+
+    private val _toastMessage = MutableStateFlow<String?>(null)
+    val toastMessage: StateFlow<String?> get() = _toastMessage
+
+
     fun hideMessageInImage(addedImage: Bitmap, encryptBytes: ByteArray) {
         viewModelScope.launch(Dispatchers.IO) {
             steganographyUseCase.hideMessageInImage(addedImage, encryptBytes)
@@ -80,10 +88,11 @@ class SteganographyViewModel @Inject constructor(
                 contentResolver
             )
         }
-        _isEncrypting.value = false
         _imageEncodeUri.value = uri
+        _isEncrypting.value = false
         return uri
     }
+
 
     fun extractEncrypt(inputImageName: String, contentResolver: ContentResolver) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -99,5 +108,21 @@ class SteganographyViewModel @Inject constructor(
 
     fun setMessage(newMessage: String) {
         _message.value = newMessage
+    }
+
+    fun updateMessage(newMessage: String) {
+        if (newMessage.length <= 70) {
+            _message.value = newMessage
+            _characterCount.value = newMessage.length
+        }
+        if (newMessage.length == 70) {
+            _toastMessage.value = "Se ha alcanzado el límite de 70 caracteres"
+        } else {
+            _toastMessage.value = null
+        }
+    }
+
+    fun clearToastMessage() {
+        _toastMessage.value = null
     }
 }

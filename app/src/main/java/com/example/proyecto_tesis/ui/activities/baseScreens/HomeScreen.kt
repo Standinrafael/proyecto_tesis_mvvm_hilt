@@ -93,6 +93,7 @@ import coil.request.ImageRequest
 import com.example.proyecto_tesis.ui.activities.navScreens.DecodeScreen
 import com.example.proyecto_tesis.ui.activities.navScreens.EncodeScreen
 import com.example.proyecto_tesis.ui.activities.navScreens.InformationScreen
+import com.example.proyecto_tesis.ui.routes.BottomNavGraph
 import com.example.proyecto_tesis.ui.routes.BottomNavScreen
 import kotlinx.coroutines.launch
 
@@ -100,7 +101,6 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(navigation: NavController) {
-
     val navController = rememberNavController()
     val context = LocalContext.current
     val authViewModel: AuthViewModel = hiltViewModel()
@@ -220,7 +220,6 @@ fun HomeScreen(navigation: NavController) {
         }
     ) { contentPadding ->
         Box(modifier = Modifier.padding(contentPadding)) {
-
             // Diseño de los cuadros de diálogo
             if (showDialogExit) {
                 LogoutDialog(onConfirmLogout = {
@@ -335,22 +334,4 @@ fun RowScope.AddItem(
             }
         }
     )
-}
-
-// Navegación de la parte inferior
-@Composable
-fun BottomNavGraph(
-    navController: NavHostController
-) {
-    NavHost(navController = navController, startDestination = BottomNavScreen.Codification.route) {
-        composable(route = BottomNavScreen.Codification.route) {
-            EncodeScreen()
-        }
-        composable(route = BottomNavScreen.Decodification.route) {
-            DecodeScreen()
-        }
-        composable(route = BottomNavScreen.Information.route) {
-            InformationScreen()
-        }
-    }
 }

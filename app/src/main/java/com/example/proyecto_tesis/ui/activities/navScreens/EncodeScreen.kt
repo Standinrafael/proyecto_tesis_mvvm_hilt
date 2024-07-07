@@ -144,7 +144,7 @@ fun PickImageFromGallery(
             steganographyViewModel.clearMessageField()
         }
 
-    val file = context.createImageFile()
+    val file =imageUtilsViewModel.createImageFile(context)
     val uri = FileProvider.getUriForFile(
         context, context.packageName + ".provider", file
     )
@@ -322,10 +322,10 @@ fun encodeButton(
 ) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
-    var characterCount by remember { mutableStateOf(0) }
     val isLoading by steganographyViewModel.isEncrypting.collectAsState()
     val imageEncodeUri by steganographyViewModel.imageEncodeUri.collectAsState()
     val message by steganographyViewModel.message.collectAsState()
+    val toastMessage by steganographyViewModel.toastMessage.collectAsState()
 
     val writePermissionLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission()
@@ -345,7 +345,6 @@ fun encodeButton(
                             "Se encriptó la imagen guardada en imágenes - external SD",
                             Toast.LENGTH_SHORT
                         ).show()
-                        Log.i("infocompresed", uri.toString())
                     } else {
                         Toast.makeText(
                             context,
@@ -373,15 +372,7 @@ fun encodeButton(
     OutlinedTextField(
         value = message,
         onValueChange = { newMessage ->
-            if (characterCount < 70) {
-                steganographyViewModel.setMessage(newMessage.take(70))
-                characterCount = newMessage.length
-            }
-            if (characterCount == 70) {
-                Toast.makeText(
-                    context, "Se ha alcanzado el límite de 70 caracteres", Toast.LENGTH_SHORT
-                ).show()
-            }
+            steganographyViewModel.updateMessage(newMessage)
         },
         label = {
             Text(
@@ -397,6 +388,11 @@ fun encodeButton(
 
     if (isLoading) {
         MyLoader()
+    }
+
+    toastMessage?.let {
+        Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+        steganographyViewModel.clearToastMessage()
     }
 
     val permission = rememberMultiplePermissionsState(
@@ -458,9 +454,10 @@ fun encodeButton(
     ShareImageButton(imageEncodeUri)
 }
 
+
 @RequiresApi(Build.VERSION_CODES.Q)
-@Composable
 @OptIn(ExperimentalPermissionsApi::class)
+@Composable
 fun encodeButton2(
     inputImage: String?,
     steganographyViewModel: SteganographyViewModel,
@@ -468,10 +465,10 @@ fun encodeButton2(
 ) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
-    var characterCount by remember { mutableStateOf(0) }
     val isLoading by steganographyViewModel.isEncrypting.collectAsState()
     val imageEncodeUri by steganographyViewModel.imageEncodeUri.collectAsState()
     val message by steganographyViewModel.message.collectAsState()
+    val toastMessage by steganographyViewModel.toastMessage.collectAsState()
 
     val writePermissionLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission()
@@ -518,15 +515,7 @@ fun encodeButton2(
     OutlinedTextField(
         value = message,
         onValueChange = { newMessage ->
-            if (characterCount < 70) {
-                steganographyViewModel.setMessage(newMessage.take(70))
-                characterCount = newMessage.length
-            }
-            if (characterCount == 70) {
-                Toast.makeText(
-                    context, "Se ha alcanzado el límite de 70 caracteres", Toast.LENGTH_SHORT
-                ).show()
-            }
+            steganographyViewModel.updateMessage(newMessage)
         },
         label = {
             Text(
@@ -542,6 +531,11 @@ fun encodeButton2(
 
     if (isLoading) {
         MyLoader()
+    }
+
+    toastMessage?.let {
+        Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+        steganographyViewModel.clearToastMessage()
     }
 
     Button(onClick = {
@@ -697,13 +691,5 @@ fun loadCheckboxState(context: Context): Boolean {
     )
 }
 
-fun Context.createImageFile(): File {
-    val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-    val imageFileName = "JPEG_" + timeStamp + "_"
-    return File.createTempFile(
-        imageFileName, /* prefix */
-        ".jpg", /* suffix */
-        externalCacheDir      /* directory */
-    )
-}
+
 
