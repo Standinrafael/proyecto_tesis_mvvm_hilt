@@ -1,6 +1,5 @@
 package com.example.proyecto_tesis.ui.activities.navScreens
 
-
 import android.Manifest
 import android.content.Context
 import android.content.Intent
@@ -16,7 +15,6 @@ import androidx.annotation.RequiresApi
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -28,27 +26,17 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Visibility
-import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -58,53 +46,31 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
-import com.example.proyecto_tesis.R
-import com.example.proyecto_tesis.ui.routes.Routes
-import com.example.proyecto_tesis.ui.theme.Purple40
 import com.example.proyecto_tesis.ui.viewmodels.AuthViewModel
 import com.example.proyecto_tesis.ui.viewmodels.FirestoreViewModel
-import com.example.proyecto_tesis.utils.AuthRes
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.firebase.auth.GoogleAuthProvider
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.text.input.ImeAction
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.LifecycleOwner
 import coil.compose.rememberAsyncImagePainter
+import com.example.proyecto_tesis.R
 import com.example.proyecto_tesis.ui.viewmodels.ImageUtilsViewModel
 import com.example.proyecto_tesis.ui.viewmodels.SteganographyViewModel
 import com.example.proyecto_tesis.utils.ImageUtils
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.io.File
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Objects
+
 @Composable
 fun EncodeScreen() {
     val authViewModel: AuthViewModel = hiltViewModel()
     val firestoreViewModel: FirestoreViewModel = hiltViewModel()
     val steganographyViewModel: SteganographyViewModel = hiltViewModel()
     val imageUtilsViewModel: ImageUtilsViewModel = hiltViewModel()
-    val context = LocalContext.current
 
     LaunchedEffect(Unit) {
         steganographyViewModel.fetchUserData(authViewModel, firestoreViewModel)
@@ -144,7 +110,7 @@ fun PickImageFromGallery(
             steganographyViewModel.clearMessageField()
         }
 
-    val file =imageUtilsViewModel.createImageFile(context)
+    val file = imageUtilsViewModel.createImageFile(context)
     val uri = FileProvider.getUriForFile(
         context, context.packageName + ".provider", file
     )
@@ -190,7 +156,7 @@ fun PickImageFromGallery(
 
         Row {
             Button(onClick = { launcher.launch("image/*") }) {
-                Text(text = "Galería")
+                Text(text = stringResource(id = R.string.galery))
             }
 
             Spacer(modifier = Modifier.width(8.dp))
@@ -204,7 +170,7 @@ fun PickImageFromGallery(
                     permissionLauncher.launch(Manifest.permission.CAMERA)
                 }
             }) {
-                Text(text = "Cámara")
+                Text(text = stringResource(id = R.string.camera))
             }
         }
         Spacer(modifier = Modifier.height(5.dp))
@@ -286,7 +252,7 @@ fun PickImageFromGallery2(
 
         Row {
             Button(onClick = { launcher.launch("image/*") }) {
-                Text(text = "Galería")
+                Text(text = stringResource(id = R.string.galery))
             }
 
             Spacer(modifier = Modifier.width(8.dp))
@@ -300,7 +266,7 @@ fun PickImageFromGallery2(
                     permissionLauncher.launch(Manifest.permission.CAMERA)
                 }
             }) {
-                Text(text = "Cámara")
+                Text(text = stringResource(id = R.string.camera))
             }
         }
         Spacer(modifier = Modifier.height(5.dp))
@@ -376,7 +342,7 @@ fun encodeButton(
         },
         label = {
             Text(
-                "Ingrese su mensaje: Límite 70 caracteres",
+                stringResource(id = R.string.limited_caracter),
                 style = MaterialTheme.typography.bodySmall
             )
         },
@@ -449,7 +415,7 @@ fun encodeButton(
             Toast.makeText(ctx, "Permiso denegado", Toast.LENGTH_SHORT).show()
         }
     }) {
-        Text(text = "Convertir")
+        Text(text = stringResource(id = R.string.converter))
     }
     ShareImageButton(imageEncodeUri)
 }
@@ -519,7 +485,7 @@ fun encodeButton2(
         },
         label = {
             Text(
-                "Ingrese su mensaje: Límite 70 caracteres",
+                stringResource(id = R.string.limited_caracter),
                 style = MaterialTheme.typography.bodySmall
             )
         },
@@ -566,7 +532,6 @@ fun encodeButton2(
                                     "Se encriptó la imagen guardada en imágenes - external SD",
                                     Toast.LENGTH_SHORT
                                 ).show()
-                                Log.i("infocompresed", uri.toString())
                             } else {
                                 Toast.makeText(
                                     context,
@@ -576,17 +541,19 @@ fun encodeButton2(
                             }
                         }
                     }
+
                     else -> {
                         writePermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                     }
                 }
             }
+
             else -> {
                 readPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
             }
         }
     }) {
-        Text(text = "Convertir2")
+        Text(text = stringResource(id = R.string.converter))
     }
     ShareImageButton(imageEncodeUri)
 }
@@ -620,21 +587,20 @@ fun ShareImageButton(uriToImage2: Uri?) {
         }
     )
     {
-        Text("Compartir Imagen")
+        Text(stringResource(id = R.string.share_image))
     }
 
     if (showDialog) {
         AlertDialog(
             onDismissRequest = { showDialog = false },
-            title = { Text("Aviso de seguridad de mensajes en aplicaciones de Meta") },
+            title = { Text(stringResource(id = R.string.title_dialog_message)) },
             text = {
                 Column(
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
-                        "Si se envían mensajes por aplicaciones de Meta (WhatsApp, Messenger, Instagram), " +
-                                "no se podrán desencriptar los mensajes."
+                        stringResource(id = R.string.dialog_message_meta_applications)
                     )
                     Row(
                         verticalAlignment = Alignment.CenterVertically
@@ -643,7 +609,7 @@ fun ShareImageButton(uriToImage2: Uri?) {
                             checked = rememberCheckBoxState,
                             onCheckedChange = { rememberCheckBoxState = it }
                         )
-                        Text("Mostrar este diálogo la próxima vez")
+                        Text(stringResource(id = R.string.dialog_message))
                     }
                 }
             },
@@ -655,7 +621,7 @@ fun ShareImageButton(uriToImage2: Uri?) {
                         shareImage(context, uriToImage2)
                     }
                 ) {
-                    Text("Confirmar")
+                    Text(stringResource(id = R.string.accept_dialog))
                 }
             }
         )

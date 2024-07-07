@@ -13,6 +13,7 @@ import com.example.proyecto_tesis.data.repository.FirestoreRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
+
 class SteganographyUseCase @Inject constructor(
     private val firestoreRepository: FirestoreRepository,
     private val encryptionUseCase: EncryptionUseCase
@@ -64,23 +65,14 @@ class SteganographyUseCase @Inject constructor(
         val imageDirection = Uri.parse(addedImage)
         val inputStream = contentResolver.openInputStream(imageDirection)
         if (inputStream == null) {
-            Log.e("error", "No se puede leer el parámetro! Ruta: $imageDirection")
             return@withContext null
-        } else {
-            Log.e("info", "El archivo existe Ruta: $imageDirection")
         }
 
-        Log.e("info", "Id: $userId")
-        Log.e("info", "Password: $password")
-
         val bytesMensajeEncriptado = encryptionUseCase.encrypt(message, password, userId)
-        Log.e("info", "Ruta: $imageDirection")
-
         val originalImage = BitmapFactory.decodeStream(inputStream)
         val image = originalImage.copy(originalImage.config, true)
 
         if (image == null) {
-            Log.e("error", "Error al decodificar la imagen.")
             return@withContext null
         }
         if (image.width * image.height < bytesMensajeEncriptado.size * 8) {
@@ -104,13 +96,9 @@ class SteganographyUseCase @Inject constructor(
                 image.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
                 outputStream.flush()
                 outputStream.close()
-                Log.i("ubicación", "Mensaje guardado en $uri")
                 return@withContext uri
             }
         }
-
-
-
         true
     } as Uri?
 
@@ -122,7 +110,6 @@ class SteganographyUseCase @Inject constructor(
         val inputStream = contentResolver.openInputStream(imageDirection)
         var messageFound = false
         if (inputStream == null) {
-            Log.e("error", "No se puede leer la imagen! Ruta: $imageDirection")
             return@withContext "false"
         }
 
@@ -131,7 +118,6 @@ class SteganographyUseCase @Inject constructor(
         val originalImage = BitmapFactory.decodeStream(inputStream)
         val inputImage = originalImage.copy(originalImage.config, true)
         if (inputImage == null) {
-            Log.e("error", "Error al decodificar la imagen.")
             return@withContext "false"
         }
 
@@ -158,7 +144,6 @@ class SteganographyUseCase @Inject constructor(
             }
         }
         if (messageFound) {
-            Log.d("CONTENIDO 2", "Lista a enviar $messageAsBytes")
             encryptionUseCase.decrypt(messageAsBytes)
         } else {
             "false"

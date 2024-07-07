@@ -21,7 +21,6 @@ import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 
-// AuthRepository.kt
 class AuthRepository @Inject constructor(
     private val firebaseAuth: FirebaseAuth,
     private val googleSignInClient: GoogleSignInClient,
@@ -29,7 +28,10 @@ class AuthRepository @Inject constructor(
     private val context: Context
 ) {
 
-    suspend fun createUserWithEmailandPassword(email: String, password: String): AuthRes<FirebaseUser?> {
+    suspend fun createUserWithEmailandPassword(
+        email: String,
+        password: String
+    ): AuthRes<FirebaseUser?> {
         return try {
             val authResult = firebaseAuth.createUserWithEmailAndPassword(email, password).await()
             AuthRes.Success(authResult.user)
@@ -38,7 +40,10 @@ class AuthRepository @Inject constructor(
         }
     }
 
-    suspend fun signInWithEmailandPassword(email: String, password: String): AuthRes<FirebaseUser?> {
+    suspend fun signInWithEmailandPassword(
+        email: String,
+        password: String
+    ): AuthRes<FirebaseUser?> {
         return try {
             val authResult = firebaseAuth.signInWithEmailAndPassword(email, password).await()
             AuthRes.Success(authResult.user)
@@ -151,12 +156,8 @@ class AuthRepository @Inject constructor(
             .await()
 
         return if (querySnapshot.isEmpty) {
-
-            // Si no hay documentos, el primero se crea con id 1
             1
         } else {
-
-            // Si ya existe valores altos, se coge el mas alto y se suma 1 la id del nuevo usuario
             val lastDocument = querySnapshot.documents.first()
             val lastId = lastDocument.getLong("id")?.toInt() ?: 0
             lastId + 1
@@ -164,13 +165,9 @@ class AuthRepository @Inject constructor(
     }
 
     private fun obtainDate(): String {
-        // Implementación para obtener la fecha
-        //Variable para obtener la fecha actual
+
         val currentDateTime = LocalDateTime.now()
-
-        //Envair el tipo de formato: 16 caracteres para usarlo de contrasenia
         val formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmssSS")
-
         return currentDateTime.format(formatter)
     }
 }

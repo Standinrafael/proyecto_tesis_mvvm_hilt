@@ -59,7 +59,6 @@ class FirestoreRepository @Inject constructor(
             }
             true
         } catch (e: Exception) {
-            Log.e("TAG", "Error al eliminar usuario por authUID: $e")
             false
         }
     }

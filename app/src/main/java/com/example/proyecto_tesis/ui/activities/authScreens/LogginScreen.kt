@@ -32,7 +32,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -43,10 +42,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -62,10 +61,8 @@ import com.example.proyecto_tesis.ui.viewmodels.FirestoreViewModel
 import com.example.proyecto_tesis.utils.AuthRes
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.firebase.auth.GoogleAuthProvider
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.LifecycleOwner
-import kotlinx.coroutines.launch
 
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -78,15 +75,16 @@ fun LogginScreen(navigation: NavController) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
 
-    // Obtener el ViewModel con Hilt
+
     val authViewModel: AuthViewModel = hiltViewModel()
     val firestoreViewModel: FirestoreViewModel = hiltViewModel()
 
-    // Credenciales de Google
+
     val googleSignInLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartActivityForResult()
     ) { result ->
-        when (val account = authViewModel.handleSignInResult(GoogleSignIn.getSignedInAccountFromIntent(result.data))) {
+        when (val account =
+            authViewModel.handleSignInResult(GoogleSignIn.getSignedInAccountFromIntent(result.data))) {
             is AuthRes.Success -> {
                 val credential = GoogleAuthProvider.getCredential(account.data?.idToken, null)
                 val googleAuthResult = authViewModel.signInWithGoogleCredential(credential)
@@ -100,6 +98,7 @@ fun LogginScreen(navigation: NavController) {
                                 }
                             }
                         }
+
                         is AuthRes.Error -> {
                             Toast.makeText(
                                 context,
@@ -107,12 +106,14 @@ fun LogginScreen(navigation: NavController) {
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
+
                         else -> {
                             Toast.makeText(context, "Error desconocido", Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
             }
+
             is AuthRes.Error -> {
                 Toast.makeText(
                     context,
@@ -120,6 +121,7 @@ fun LogginScreen(navigation: NavController) {
                     Toast.LENGTH_SHORT
                 ).show()
             }
+
             else -> {
                 Toast.makeText(context, "Error desconocido", Toast.LENGTH_SHORT).show()
             }
@@ -128,7 +130,7 @@ fun LogginScreen(navigation: NavController) {
 
     Box(modifier = Modifier.fillMaxSize()) {
         ClickableText(
-            text = AnnotatedString("No tiene una cuenta? Registrate"),
+            text = AnnotatedString(stringResource(id = R.string.question_create_account)),
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .padding(40.dp),
@@ -162,7 +164,7 @@ fun LogginScreen(navigation: NavController) {
 
         Spacer(modifier = Modifier.height(30.dp))
         TextField(
-            label = { Text(text = "Correo electrónico") },
+            label = { Text(text = stringResource(id = R.string.email)) },
             value = email,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
             onValueChange = { email = it })
@@ -170,7 +172,7 @@ fun LogginScreen(navigation: NavController) {
         TextField(
             value = password,
             onValueChange = { password = it },
-            label = { Text(text = "Contraseña") },
+            label = { Text(text = stringResource(id = R.string.password)) },
 
             // Observar la contraseña
             visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
@@ -199,6 +201,7 @@ fun LogginScreen(navigation: NavController) {
                                         }
                                     }
                                 }
+
                                 is AuthRes.Error -> {
                                     Toast.makeText(
                                         context,
@@ -221,12 +224,12 @@ fun LogginScreen(navigation: NavController) {
                     .fillMaxWidth()
                     .height(50.dp)
             ) {
-                Text(text = "Iniciar sesión".uppercase())
+                Text(text = stringResource(id = R.string.sign_in))
             }
         }
         Spacer(modifier = Modifier.height(20.dp))
         ClickableText(
-            text = AnnotatedString("Olvidaste la contraseña"),
+            text = AnnotatedString(stringResource(id = R.string.forgot_password)),
             onClick = {
                 navigation.navigate(Routes.ForgotPasswordScreen.route)
             },
@@ -244,7 +247,7 @@ fun LogginScreen(navigation: NavController) {
             onClick = {
                 authViewModel.signInWithGoogle(googleSignInLauncher)
             },
-            text = "Continuar con Google",
+            text = stringResource(id = R.string.sign_in_google),
             icon = R.drawable.ic_google,
             color = Color(0xFFF1F1F1)
         )

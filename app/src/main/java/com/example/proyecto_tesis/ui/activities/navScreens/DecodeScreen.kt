@@ -1,8 +1,6 @@
 package com.example.proyecto_tesis.ui.activities.navScreens
 
-
 import android.Manifest
-import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.ImageDecoder
 import android.net.Uri
@@ -33,29 +31,24 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
+import com.example.proyecto_tesis.R
 import com.example.proyecto_tesis.ui.viewmodels.ImageUtilsViewModel
 import com.example.proyecto_tesis.ui.viewmodels.SteganographyViewModel
-
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
-import com.google.accompanist.permissions.isGranted
-import com.google.accompanist.permissions.rememberMultiplePermissionsState
-import kotlinx.coroutines.launch
+
 @Composable
 fun DecodeScreen() {
     val steganographyViewModel: SteganographyViewModel = hiltViewModel()
     val imageUtilsViewModel: ImageUtilsViewModel = hiltViewModel()
-    val context = LocalContext.current
 
     Column(
         modifier = Modifier
@@ -63,7 +56,7 @@ fun DecodeScreen() {
             .padding(16.dp)
     ) {
         Text(
-            text = "Seleccione la imagen",
+            text = stringResource(id = R.string.choose_image),
             style = MaterialTheme.typography.bodyLarge,
             modifier = Modifier.align(Alignment.CenterHorizontally)
         )
@@ -83,7 +76,7 @@ fun PickImageFromGalleryDeco(
     val launcher =
         rememberLauncherForActivityResult(contract = ActivityResultContracts.GetContent()) { uri: Uri? ->
             imageUri = uri
-            steganographyViewModel.clearMessageField()// Clear message when new image is selected
+            steganographyViewModel.clearMessageField()
         }
 
     Column(
@@ -92,7 +85,7 @@ fun PickImageFromGalleryDeco(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Button(onClick = { launcher.launch("image/*") }) {
-            Text(text = "Galería")
+            Text(text = stringResource(id = R.string.galery))
         }
         Box(
             modifier = Modifier
@@ -143,7 +136,8 @@ fun DecodificarButton(
             if (!inputImage.isNullOrEmpty()) {
                 steganographyViewModel.extractEncrypt(inputImage, context.contentResolver)
             } else {
-                Toast.makeText(context, "Debe seleccionar una imagen primero", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Debe seleccionar una imagen primero", Toast.LENGTH_SHORT)
+                    .show()
             }
         } else {
             Toast.makeText(context, "Permiso de escritura denegado", Toast.LENGTH_SHORT).show()
@@ -163,7 +157,7 @@ fun DecodificarButton(
     Button(onClick = {
         readPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
     }) {
-        Text(text = "Obtener Mensaje")
+        Text(stringResource(id = R.string.extract_message))
     }
     Spacer(modifier = Modifier.height(15.dp))
 
@@ -196,7 +190,8 @@ fun DecodificarButtond(
             if (!inputImage.isNullOrEmpty()) {
                 steganographyViewModel.extractEncrypt(inputImage, context.contentResolver)
             } else {
-                Toast.makeText(context, "Debe seleccionar una imagen primero", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Debe seleccionar una imagen primero", Toast.LENGTH_SHORT)
+                    .show()
             }
         } else {
             Toast.makeText(context, "Permiso de escritura denegado", Toast.LENGTH_SHORT).show()
@@ -216,7 +211,7 @@ fun DecodificarButtond(
     Button(onClick = {
         readPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
     }) {
-        Text(text = "Obtener Mensaje")
+        Text(stringResource(id = R.string.extract_message))
     }
     Spacer(modifier = Modifier.height(15.dp))
 
