@@ -60,7 +60,6 @@ import com.example.proyecto_tesis.ui.routes.BottomNavGraph
 import com.example.proyecto_tesis.ui.routes.BottomNavScreen
 import kotlinx.coroutines.launch
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(navigation: NavController) {
