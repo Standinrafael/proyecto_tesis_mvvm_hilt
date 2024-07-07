@@ -40,6 +40,9 @@ class SteganographyViewModel @Inject constructor(
     private val _message = MutableStateFlow("")
     val message: StateFlow<String> get() = _message
 
+    private val _isEncrypting = MutableStateFlow(false)
+    val isEncrypting: StateFlow<Boolean> get() = _isEncrypting
+
     fun hideMessageInImage(addedImage: Bitmap, encryptBytes: ByteArray) {
         viewModelScope.launch(Dispatchers.IO) {
             steganographyUseCase.hideMessageInImage(addedImage, encryptBytes)
@@ -58,27 +61,28 @@ class SteganographyViewModel @Inject constructor(
         }
     }
 
-    fun injectEncryption(
+    suspend fun injectEncryption(
         inputImage: String,
         message: String,
         outputImage: String,
         contentResolver: ContentResolver
-    ) {
-        viewModelScope.launch {
-            val uri = withContext(Dispatchers.IO) {
-                val userId = _userId.value ?: return@withContext null
-                val password = _password.value ?: return@withContext null
-                steganographyUseCase.injectEncryption(
-                    inputImage,
-                    message,
-                    userId,
-                    password,
-                    outputImage,
-                    contentResolver
-                )
-            }
-            _imageEncodeUri.value = uri
+    ): Uri? {
+        _isEncrypting.value = true
+        val uri = withContext(Dispatchers.IO) {
+            val userId = _userId.value ?: return@withContext null
+            val password = _password.value ?: return@withContext null
+            steganographyUseCase.injectEncryption(
+                inputImage,
+                message,
+                userId,
+                password,
+                outputImage,
+                contentResolver
+            )
         }
+        _isEncrypting.value = false
+        _imageEncodeUri.value = uri
+        return uri
     }
 
     fun extractEncrypt(inputImageName: String, contentResolver: ContentResolver) {

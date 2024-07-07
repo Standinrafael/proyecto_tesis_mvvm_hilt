@@ -323,7 +323,7 @@ fun encodeButton(
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     var characterCount by remember { mutableStateOf(0) }
-    var isLoading by remember { mutableStateOf(false) }
+    val isLoading by steganographyViewModel.isEncrypting.collectAsState()
     val imageEncodeUri by steganographyViewModel.imageEncodeUri.collectAsState()
     val message by steganographyViewModel.message.collectAsState()
 
@@ -332,12 +332,28 @@ fun encodeButton(
     ) { isGranted ->
         if (isGranted) {
             if (!inputImage.isNullOrEmpty()) {
-                steganographyViewModel.injectEncryption(
-                    inputImage,
-                    message,
-                    outputImage,
-                    context.contentResolver
-                )
+                scope.launch {
+                    val uri = steganographyViewModel.injectEncryption(
+                        inputImage,
+                        message,
+                        outputImage,
+                        context.contentResolver
+                    )
+                    if (uri != null) {
+                        Toast.makeText(
+                            context,
+                            "Se encriptó la imagen guardada en imágenes - external SD",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        Log.i("infocompresed", uri.toString())
+                    } else {
+                        Toast.makeText(
+                            context,
+                            "Error al encriptar la imagen",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
             }
         } else {
             Toast.makeText(context, "Permiso de escritura denegado", Toast.LENGTH_SHORT).show()
@@ -379,9 +395,9 @@ fun encodeButton(
     )
     Spacer(modifier = Modifier.height(15.dp))
 
-   if(isLoading){
-       MyLoader()
-   }
+    if (isLoading) {
+        MyLoader()
+    }
 
     val permission = rememberMultiplePermissionsState(
         permissions = listOf(
@@ -412,22 +428,27 @@ fun encodeButton(
             }
 
             scope.launch {
-                    steganographyViewModel.injectEncryption(
+                val uri = steganographyViewModel.injectEncryption(
                     inputImage,
                     message,
                     outputImage,
                     context.contentResolver
                 )
-                withContext(Dispatchers.Main) {
-                    isLoading = false
+                if (uri != null) {
                     Toast.makeText(
                         context,
                         "Se encriptó la imagen guardada en imágenes - external SD",
                         Toast.LENGTH_SHORT
                     ).show()
+                    Log.i("infocompresed", uri.toString())
+                } else {
+                    Toast.makeText(
+                        context,
+                        "Error al encriptar la imagen",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
-            isLoading=true
         } else {
             Toast.makeText(ctx, "Permiso denegado", Toast.LENGTH_SHORT).show()
         }
@@ -448,7 +469,7 @@ fun encodeButton2(
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     var characterCount by remember { mutableStateOf(0) }
-    var isLoading by remember { mutableStateOf(false) }
+    val isLoading by steganographyViewModel.isEncrypting.collectAsState()
     val imageEncodeUri by steganographyViewModel.imageEncodeUri.collectAsState()
     val message by steganographyViewModel.message.collectAsState()
 
@@ -457,12 +478,28 @@ fun encodeButton2(
     ) { isGranted ->
         if (isGranted) {
             if (!inputImage.isNullOrEmpty()) {
-                steganographyViewModel.injectEncryption(
-                    inputImage,
-                    message,
-                    outputImage,
-                    context.contentResolver
-                )
+                scope.launch {
+                    val uri = steganographyViewModel.injectEncryption(
+                        inputImage,
+                        message,
+                        outputImage,
+                        context.contentResolver
+                    )
+                    if (uri != null) {
+                        Toast.makeText(
+                            context,
+                            "Se encriptó la imagen guardada en imágenes - external SD",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        Log.i("infocompresed", uri.toString())
+                    } else {
+                        Toast.makeText(
+                            context,
+                            "Error al encriptar la imagen",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
             }
         } else {
             Toast.makeText(context, "Permiso de escritura denegado", Toast.LENGTH_SHORT).show()
@@ -503,9 +540,9 @@ fun encodeButton2(
     )
     Spacer(modifier = Modifier.height(15.dp))
 
-   if(isLoading){
-       MyLoader()
-   }
+    if (isLoading) {
+        MyLoader()
+    }
 
     Button(onClick = {
         if (inputImage.isNullOrEmpty()) {
@@ -522,30 +559,34 @@ fun encodeButton2(
                         context, Manifest.permission.WRITE_EXTERNAL_STORAGE
                     ) == PackageManager.PERMISSION_GRANTED -> {
                         scope.launch {
-                                steganographyViewModel.injectEncryption(
+                            val uri = steganographyViewModel.injectEncryption(
                                 inputImage,
                                 message,
                                 outputImage,
                                 context.contentResolver
                             )
-                            withContext(Dispatchers.Main) {
-                                isLoading = false
+                            if (uri != null) {
+
                                 Toast.makeText(
                                     context,
                                     "Se encriptó la imagen guardada en imágenes - external SD",
                                     Toast.LENGTH_SHORT
                                 ).show()
+                                Log.i("infocompresed", uri.toString())
+                            } else {
+                                Toast.makeText(
+                                    context,
+                                    "Error al encriptar la imagen",
+                                    Toast.LENGTH_SHORT
+                                ).show()
                             }
                         }
                     }
-
                     else -> {
                         writePermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                     }
                 }
-                isLoading=true
             }
-
             else -> {
                 readPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
             }
@@ -555,6 +596,7 @@ fun encodeButton2(
     }
     ShareImageButton(imageEncodeUri)
 }
+
 
 @Composable
 fun MyLoader() {
@@ -567,19 +609,11 @@ fun MyLoader() {
 fun ShareImageButton(uriToImage2: Uri?) {
     val context = LocalContext.current
     var showDialog by remember { mutableStateOf(false) }
-    var isLoading by remember { mutableStateOf(false) }
     var rememberCheckBoxState by remember { mutableStateOf(false) }
 
     LaunchedEffect(uriToImage2) {
-
         rememberCheckBoxState = loadCheckboxState(context)
     }
-
-    if (isLoading ){
-        MyLoader()
-    }
-
-
 
     Button(
         enabled = uriToImage2 != null,
