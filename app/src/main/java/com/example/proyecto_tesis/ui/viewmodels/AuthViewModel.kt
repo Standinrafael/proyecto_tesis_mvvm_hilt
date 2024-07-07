@@ -9,6 +9,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.proyecto_tesis.data.repository.AuthRepository
 import com.example.proyecto_tesis.logic.usercases.AuthUseCases
 import com.example.proyecto_tesis.utils.AuthRes
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -29,9 +30,11 @@ import javax.inject.Inject
 @HiltViewModel
 class AuthViewModel @Inject constructor(
     private val authUseCases: AuthUseCases,
+    private val authRepository: AuthRepository,
     @ApplicationContext private val context: Context,
     private val googleSignInClient: GoogleSignInClient
 ) : ViewModel() {
+
 
     private val _authState = MutableLiveData<AuthRes<FirebaseUser?>>()
     val authState: LiveData<AuthRes<FirebaseUser?>> get() = _authState
@@ -137,6 +140,9 @@ class AuthViewModel @Inject constructor(
         return signUpResult
     }
 
+    fun getCurrentUserUid(): String? {
+        return currentUser.value?.uid
+    }
 
 
 }

@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.proyecto_tesis.data.repository.FirestoreRepository
 import com.example.proyecto_tesis.logic.usercases.FirestoreUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -11,7 +12,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class FirestoreViewModel @Inject constructor(
-    private val firestoreUseCases: FirestoreUseCases
+    private val firestoreUseCases: FirestoreUseCases,
+    private val firestoreRepository: FirestoreRepository
 ) : ViewModel() {
 
     private val _nextId = MutableLiveData<Int>()
@@ -48,6 +50,18 @@ class FirestoreViewModel @Inject constructor(
         viewModelScope.launch {
             val password = firestoreUseCases.userPassword(id)
             _userPassword.value = password
+        }
+    }
+
+    suspend fun fetchUserId(uid: String): Int {
+        return firestoreRepository.userId(uid).also {
+            _userId.value = it
+        }
+    }
+
+    suspend fun fetchUserPassword(id: Int): String {
+        return firestoreRepository.userPassword(id).also {
+            _userPassword.value = it
         }
     }
 }

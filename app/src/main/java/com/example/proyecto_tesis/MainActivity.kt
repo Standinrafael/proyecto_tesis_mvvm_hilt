@@ -22,7 +22,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             Proyecto_tesisTheme {
-               AppNavigation()
+               AppNavigation(this)
             }
         }
     }

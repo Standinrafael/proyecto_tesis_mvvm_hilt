@@ -344,10 +344,10 @@ fun BottomNavGraph(
 ) {
     NavHost(navController = navController, startDestination = BottomNavScreen.Codification.route) {
         composable(route = BottomNavScreen.Codification.route) {
-            EncodeScreen(navController)
+            EncodeScreen()
         }
         composable(route = BottomNavScreen.Decodification.route) {
-            DecodeScreen(navController)
+            DecodeScreen()
         }
         composable(route = BottomNavScreen.Information.route) {
             InformationScreen()
