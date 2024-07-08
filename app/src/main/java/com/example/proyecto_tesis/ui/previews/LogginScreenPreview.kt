@@ -124,7 +124,10 @@ fun LogginScreenPreview(
         Spacer(modifier = Modifier.height(100.dp))
         Text(
             text = stringResource(id = R.string.login),
-            style = TextStyle(fontSize = 30.sp, color = Color(0xFF93C464), fontFamily = monserratSemiBold)
+            style = TextStyle(fontSize = 30.sp,
+                color = Color(0xFF93C464),
+                fontFamily = monserratSemiBold,
+            )
         )
 
         Spacer(modifier = Modifier.height(30.dp))

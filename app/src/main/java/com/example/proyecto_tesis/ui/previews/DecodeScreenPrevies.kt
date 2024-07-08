@@ -34,11 +34,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.example.proyecto_tesis.R
 import com.example.proyecto_tesis.ui.theme.Proyecto_tesisTheme
+import com.example.proyecto_tesis.utils.monserratLight
+import com.example.proyecto_tesis.utils.monserratRegular
 
 @Preview(showSystemUi = true)
 @Composable
@@ -57,8 +61,12 @@ fun DecodeScreenPreview() {
     ) {
         Text(
             text = stringResource(id = R.string.choose_image),
-            style = MaterialTheme.typography.bodyLarge,
-            modifier = Modifier.align(Alignment.CenterHorizontally)
+            modifier = Modifier.align(Alignment.CenterHorizontally),
+            style = TextStyle(
+
+                fontFamily = monserratRegular,
+               // color = Color(0xFFFFFFFF)
+            )
         )
         PickImageFromGalleryDecoPreview()
     }
@@ -80,9 +88,7 @@ fun PickImageFromGalleryDecoPreview() {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Button(onClick = { launcher.launch("image/*") }) {
-            Text(text = stringResource(id = R.string.galery))
-        }
+
         Box(
             modifier = Modifier
                 .size(300.dp)
@@ -105,14 +111,21 @@ fun PickImageFromGalleryDecoPreview() {
             }
         }
 
+        Box( ){
+            Button(onClick = { launcher.launch("image/*") }) {
+                Text(text = stringResource(id = R.string.galery))
+            }
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                DecodificarButtonPreview()
+            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && Build.VERSION.SDK_INT <= Build.VERSION_CODES.S) {
+                DecodificarButtondPreview()
+            }
+        }
         Spacer(modifier = Modifier.height(12.dp))
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            DecodificarButtonPreview()
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && Build.VERSION.SDK_INT <= Build.VERSION_CODES.S) {
-            DecodificarButtondPreview()
-        }
+
     }
 }
 
@@ -133,7 +146,13 @@ fun DecodificarButtonPreview() {
     ) {
         Text(
             text = messageState.value,
-            modifier = Modifier.padding(16.dp)
+            modifier = Modifier.padding(16.dp),
+            style = TextStyle(
+                fontSize = 14.sp,
+                fontFamily = monserratLight,
+
+            )
+
         )
     }
 }

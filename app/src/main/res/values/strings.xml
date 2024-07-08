@@ -23,7 +23,7 @@
     <string name="galery">GALERIA</string>
     <string name="camera">CAMARA</string>
     <string name="limited_caracter">Ingrese su mensaje: Límite 70 caracteres</string>
-    <string name="converter">CONVERTIR</string>
+    <string name="converter">CODIFICAR</string>
     <string name="share_image">COMPARTIR IMAGEN</string>
     <string name="dialog_message">Mostrar este diálogo la próxima vez</string>
     <string name="dialog_message_meta_applications">Si se envían mensajes por aplicaciones de Meta (WhatsApp, Messenger, Instagram), " +

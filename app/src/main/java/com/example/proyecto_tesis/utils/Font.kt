@@ -15,3 +15,7 @@ val monserratLight= FontFamily(
 val monserratMedium= FontFamily(
     Font(R.font.montserrat_medium)
 )
+
+val monserratRegular= FontFamily(
+    Font(R.font.montserrat_regular)
+)
