@@ -13,9 +13,9 @@
     <string name="degree_label">Carrera:</string>
     <string name="degree_name">Ing. en Ciencias de la Computación</string>
     <string name="semester">2024 - 2024</string>
-    <string name="forgot_password">Olvidó su contraseña</string>
+    <string name="forgot_password">¿OLVIDÓ SU CONTRASEÑA?</string>
     <string name="email_hint">Correo electrónico</string>
-    <string name="recover_password">Recuperar contraseña</string>
+    <string name="recover_password">RECUPERAR</string>
     <string name="back_to_menu">Regresar al menú de inicio</string>
     <string name="send_email_success">Correo enviado</string>
     <string name="send_email_error">Error al enviar el correo</string>
@@ -49,9 +49,11 @@
     <string name="registration_error">Error de registro: %1$s</string>
     <string name="sign_up">Registrarse</string>
     <string name="already_have_account">¿Ya tienes cuenta? Inicia sesión</string>
-    <string name="question_create_account">No tiene una cuenta? Registrate</string>
-    <string name="sign_in">Iniciar sesion</string>
+    <string name="question_create_account">¿No tiene una cuenta? Regístrate</string>
+    <string name="sign_in">INICIAR SESIÓN</string>
     <string name="sign_in_google">Continuar con Google</string>
     <string name="go_to_home">Regresar al menú de inicio</string>
     <string name="codification">Codificación</string>
+    <string name="login">L O G I N</string>
+    <string name="forget_passwor_message">Para recuperarla, ingrese su correo electrónico</string>
 </resources>

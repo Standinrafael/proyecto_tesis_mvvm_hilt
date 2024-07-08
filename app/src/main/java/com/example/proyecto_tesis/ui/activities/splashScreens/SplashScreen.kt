@@ -25,10 +25,8 @@ import com.example.proyecto_tesis.R
 import com.example.proyecto_tesis.ui.routes.Routes
 import kotlinx.coroutines.delay
 import androidx.compose.ui.text.font.Font
+import com.example.proyecto_tesis.utils.monserratSemiBold
 
-val monserratSemiBold= FontFamily(
-    Font(R.font.montserrat_semibold)
-)
 
 @Composable
 fun SplashScreen (  navController: NavController)
