@@ -150,7 +150,7 @@ fun LogginScreen(navigation: NavController) {
             },
             style = TextStyle(
                 fontSize = 14.sp,
-                fontFamily = FontFamily.Default,
+                fontFamily = monserratLight,
                 color = Color(0xFF93C464)
             )
         )
@@ -204,7 +204,7 @@ fun LogginScreen(navigation: NavController) {
             ),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
             onValueChange = { email = it })
-        Spacer(modifier = Modifier.height(30.dp))
+        Spacer(modifier = Modifier.height(40.dp))
         TextField(
             value = password,
             shape =RoundedCornerShape(15.dp) ,
