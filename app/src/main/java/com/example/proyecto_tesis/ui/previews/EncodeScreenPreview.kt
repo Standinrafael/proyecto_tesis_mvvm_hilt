@@ -28,6 +28,7 @@ import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -145,8 +146,11 @@ fun PickImageFromGallery2() {
                 .size(300.dp)
                 .padding(10.dp)
                 .background(Color.LightGray, shape = RoundedCornerShape(size = 20.dp))
-                .border(width = 2.dp, shape = RoundedCornerShape(size = 20.dp), color = Color(0xFF125E73))
-
+                .border(
+                    width = 2.dp,
+                    shape = RoundedCornerShape(size = 20.dp),
+                    color = Color(0xFF125E73)
+                )
         ) {
             imageUri?.let {
                 Image(
@@ -290,7 +294,7 @@ fun encodeButton2(
 @Composable
 fun MyLoader() {
     LinearProgressIndicator(
-        color =  Color(0xFF93C464),
+        color = Color(0xFF93C464),
         modifier = Modifier.fillMaxWidth(),
     )
 }
@@ -312,7 +316,9 @@ fun ShareImageButton() {
             }
         },
         shape = RoundedCornerShape(size = 50.dp),
-        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF93C464)),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = if (true) Color(0xFF93C464) else Color.Transparent
+        )
     ) {
         Icon(
             painter = painterResource(id = R.drawable.recurso_11),
@@ -320,6 +326,7 @@ fun ShareImageButton() {
         )
         Spacer(modifier = Modifier.size(8.dp))
         Text(stringResource(id = R.string.share_image))
+
     }
 
 

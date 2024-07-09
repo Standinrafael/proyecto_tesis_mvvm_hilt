@@ -54,6 +54,7 @@
     <string name="sign_in_google">Continuar con Google</string>
     <string name="go_to_home">Regresar al menú de inicio</string>
     <string name="codification">Codificación</string>
+    <string name="decode">DECODIFICAR</string>
     <string name="login">L O G I N</string>
     <string name="forget_passwor_message">Para recuperarla, ingrese su correo electrónico</string>
 </resources>

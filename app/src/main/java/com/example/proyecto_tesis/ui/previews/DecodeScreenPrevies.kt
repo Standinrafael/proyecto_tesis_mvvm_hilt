@@ -10,18 +10,23 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -33,6 +38,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
@@ -63,9 +69,8 @@ fun DecodeScreenPreview() {
             text = stringResource(id = R.string.choose_image),
             modifier = Modifier.align(Alignment.CenterHorizontally),
             style = TextStyle(
-
                 fontFamily = monserratRegular,
-               // color = Color(0xFFFFFFFF)
+                color = Color(0xFFFFFFFF)
             )
         )
         PickImageFromGalleryDecoPreview()
@@ -77,6 +82,7 @@ fun PickImageFromGalleryDecoPreview() {
     var imageUri by remember { mutableStateOf<Uri?>(null) }
     val context = LocalContext.current
     val bitmap = remember { mutableStateOf<Bitmap?>(null) }
+    val messageState = remember { mutableStateOf("Mensaje decodificado de ejemplo") }
 
     val launcher =
         rememberLauncherForActivityResult(contract = ActivityResultContracts.GetContent()) { uri: Uri? ->
@@ -88,12 +94,16 @@ fun PickImageFromGalleryDecoPreview() {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-
         Box(
             modifier = Modifier
                 .size(300.dp)
                 .padding(5.dp)
-                .border(BorderStroke(2.dp, Color.DarkGray))
+                .background(Color.LightGray, shape = RoundedCornerShape(size = 20.dp))
+                .border(
+                    width = 2.dp,
+                    shape = RoundedCornerShape(size = 20.dp),
+                    color = Color(0xFF125E73)
+                )
         ) {
             imageUri?.let {
                 if (Build.VERSION.SDK_INT < 28) {
@@ -111,71 +121,53 @@ fun PickImageFromGalleryDecoPreview() {
             }
         }
 
-        Box( ){
-            Button(onClick = { launcher.launch("image/*") }) {
-                Text(text = stringResource(id = R.string.galery))
+        Row(modifier = Modifier.padding(10.dp, 0.dp)) {
+            Button(
+                onClick = { launcher.launch("image/*") },
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF125E73)),
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.recurso_13),
+                    contentDescription = "encode image",
+                    modifier = Modifier.size(24.dp)
+                )
             }
 
+            Spacer(modifier = Modifier.width(10.dp))
+
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                DecodificarButtonPreview()
-            }
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && Build.VERSION.SDK_INT <= Build.VERSION_CODES.S) {
-                DecodificarButtondPreview()
+                Button(
+                    onClick = { /* Acción de decodificación */ },
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF93C464)),
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.recurso_22),
+                        contentDescription = "encode image",
+                        modifier = Modifier.size(24.dp)
+                    )
+                    Text(stringResource(id = R.string.decode))
+                }
+
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && Build.VERSION.SDK_INT <= Build.VERSION_CODES.S) {
+                Button(
+                    onClick = { /* Acción de decodificación */ },
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF93C464)),
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.recurso_22),
+                        contentDescription = "encode image",
+                        modifier = Modifier.size(24.dp)
+                    )
+                    Text(stringResource(id = R.string.decode))
+                }
+
             }
         }
         Spacer(modifier = Modifier.height(12.dp))
-
-
-    }
-}
-
-@Composable
-fun DecodificarButtonPreview() {
-    val messageState = remember { mutableStateOf("Mensaje decodificado de ejemplo") }
-
-    Button(onClick = { /* Acción de decodificación */ }) {
-        Text(stringResource(id = R.string.extract_message))
-    }
-    Spacer(modifier = Modifier.height(15.dp))
-
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp)
-            .border(width = 2.dp, color = Color.Gray, shape = RoundedCornerShape(8.dp))
-    ) {
         Text(
             text = messageState.value,
-            modifier = Modifier.padding(16.dp),
-            style = TextStyle(
-                fontSize = 14.sp,
-                fontFamily = monserratLight,
-
-            )
-
+            modifier = Modifier.padding(15.dp)
         )
     }
-}
 
-@RequiresApi(Build.VERSION_CODES.Q)
-@Composable
-fun DecodificarButtondPreview() {
-    val messageState = remember { mutableStateOf("Mensaje decodificado de ejemplo") }
-
-    Button(onClick = { /* Acción de decodificación */ }) {
-        Text(stringResource(id = R.string.extract_message))
-    }
-    Spacer(modifier = Modifier.height(15.dp))
-
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp)
-            .border(width = 2.dp, color = Color.Gray, shape = RoundedCornerShape(8.dp))
-    ) {
-        Text(
-            text = messageState.value,
-            modifier = Modifier.padding(16.dp)
-        )
-    }
 }
