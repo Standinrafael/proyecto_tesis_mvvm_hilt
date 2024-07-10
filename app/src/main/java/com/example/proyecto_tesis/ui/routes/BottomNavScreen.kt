@@ -16,7 +16,8 @@ sealed class BottomNavScreen(
     object Decodification : BottomNavScreen(
         route = "decodification",
         title = "Decodificación",
-        icon = R.drawable.ic_lock_open
+        icon = R.drawable.ic_lock_open,
+
     )
 
     object Information : BottomNavScreen(

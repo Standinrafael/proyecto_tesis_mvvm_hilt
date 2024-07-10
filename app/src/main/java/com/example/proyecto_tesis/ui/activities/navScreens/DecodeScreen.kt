@@ -58,7 +58,8 @@ fun DecodeScreen() {
         Text(
             text = stringResource(id = R.string.choose_image),
             style = MaterialTheme.typography.bodyLarge,
-            modifier = Modifier.align(Alignment.CenterHorizontally)
+            modifier = Modifier.align(Alignment.CenterHorizontally).
+            padding(0.dp,10.dp,0.dp,0.dp)
         )
         PickImageFromGalleryDeco(steganographyViewModel, imageUtilsViewModel)
     }
@@ -89,7 +90,7 @@ fun PickImageFromGalleryDeco(
         }
         Box(
             modifier = Modifier
-                .size(300.dp)
+                .size(250.dp)
                 .padding(5.dp)
                 .border(BorderStroke(2.dp, Color.DarkGray))
         ) {

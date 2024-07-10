@@ -21,6 +21,8 @@ import androidx.compose.ui.unit.dp
 import com.example.proyecto_tesis.R
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.proyecto_tesis.ui.theme.color_blanco
+import com.example.proyecto_tesis.ui.theme.color_verde
 
 @Composable
 fun InformationScreen() {
@@ -44,38 +46,30 @@ fun Information(modifier: Modifier) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Spacer(modifier = Modifier.height(30.dp))
-        TitleText()
-        Spacer(modifier = Modifier.height(50.dp))
 
         UceImage()
-        Spacer(modifier = Modifier.height(50.dp))
+        Spacer(modifier = Modifier.height(40.dp))
 
         Developers(Modifier.align(Alignment.Start))
-        Spacer(modifier = Modifier.height(50.dp))
+        Spacer(modifier = Modifier.height(40.dp))
 
         Tutor(Modifier.align(Alignment.Start))
-        Spacer(modifier = Modifier.height(50.dp))
+        Spacer(modifier = Modifier.height(40.dp))
 
         Degree(Modifier.align(Alignment.Start))
-        Spacer(modifier = Modifier.height(50.dp))
+        Spacer(modifier = Modifier.height(40.dp))
 
         Semester()
+        Spacer(modifier = Modifier.height(20.dp))
     }
 }
 
-@Composable
-fun TitleText() {
-    Text(
-        text = stringResource(id = R.string.university_name),
-        style = MaterialTheme.typography.bodyLarge
-    )
-}
 
 @Composable
 fun UceImage() {
     Box(
         modifier = Modifier
-            .size(200.dp)
+            .size(150.dp)
             .padding(5.dp)
     ) {
         Image(
@@ -92,15 +86,19 @@ fun Developers(align: Modifier) {
         modifier = align,
         text = stringResource(id = R.string.developers_label),
         style = MaterialTheme.typography.bodyLarge,
+        color = color_verde
     )
     Spacer(modifier = Modifier.height(15.dp))
     Text(
         text = stringResource(id = R.string.developer_one),
-        style = MaterialTheme.typography.bodyLarge
+        style = MaterialTheme.typography.bodyLarge,
+        color = color_blanco
+
     )
     Text(
         text = stringResource(id = R.string.developer_two),
-        style = MaterialTheme.typography.bodyLarge
+        style = MaterialTheme.typography.bodyLarge,
+        color = color_blanco
     )
 }
 
@@ -109,11 +107,13 @@ fun Tutor(align: Modifier) {
     Text(
         modifier = align,
         text = stringResource(id = R.string.tutor_label),
-        style = MaterialTheme.typography.bodyLarge
+        style = MaterialTheme.typography.bodyLarge,
+        color = color_verde
     )
     Spacer(modifier = Modifier.height(15.dp))
     Text(
-        text = stringResource(id = R.string.tutor_name), style = MaterialTheme.typography.bodyLarge
+        text = stringResource(id = R.string.tutor_name), style = MaterialTheme.typography.bodyLarge,
+        color = color_blanco
     )
 }
 
@@ -122,18 +122,23 @@ fun Degree(align: Modifier) {
     Text(
         modifier = align,
         text = stringResource(id = R.string.degree_label),
-        style = MaterialTheme.typography.bodyLarge
+        style = MaterialTheme.typography.bodyLarge,
+        color = color_verde
     )
     Spacer(modifier = Modifier.height(15.dp))
     Text(
-        text = stringResource(id = R.string.degree_name), style = MaterialTheme.typography.bodyLarge
+        text = stringResource(id = R.string.degree_name),
+        style = MaterialTheme.typography.bodyLarge,
+        color = color_blanco
     )
 }
 
 @Composable
 fun Semester() {
     Text(
-        text = stringResource(id = R.string.semester), style = MaterialTheme.typography.bodyLarge
+        text = stringResource(id = R.string.semester),
+        style = MaterialTheme.typography.bodyLarge,
+        color = color_verde
     )
 }
 

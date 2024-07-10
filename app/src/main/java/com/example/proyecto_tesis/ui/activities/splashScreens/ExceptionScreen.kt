@@ -15,22 +15,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.proyecto_tesis.R
-import com.example.proyecto_tesis.ui.previews.DecodeScreenPreview
 import com.example.proyecto_tesis.ui.routes.Routes
-import com.example.proyecto_tesis.ui.theme.Proyecto_tesisTheme
-import com.example.proyecto_tesis.utils.monserratLight
+import com.example.proyecto_tesis.ui.theme.color_azul
+import com.example.proyecto_tesis.ui.theme.color_blanco
+import com.example.proyecto_tesis.ui.theme.color_verde
 import com.example.proyecto_tesis.utils.monserratMedium
 import com.example.proyecto_tesis.utils.monserratSemiBold
 import kotlinx.coroutines.delay
@@ -61,67 +59,68 @@ fun SplashException() {
         )
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(
-                "H I D E",
+                stringResource(id = R.string.hide),
                 fontSize = 25.sp,
                 fontWeight = FontWeight.Bold,
                 fontFamily = monserratSemiBold,
-                color = Color(0xFF125E73)
+                color = color_azul,
+                letterSpacing = 0.25.em
             )
             Spacer(modifier = Modifier.width(10.dp))
             Text(
-                "S N A P",
+                stringResource(id = R.string.snap),
                 fontSize = 25.sp,
                 fontWeight = FontWeight.Bold,
                 fontFamily = monserratSemiBold,
-                color = Color(0xFF93C464)
+                color = color_verde,
+                letterSpacing = 0.25.em
             )
         }
         Spacer(modifier = Modifier.height(50.dp))
         Text(
-            text = "INICIANDO",
+            text = stringResource(id = R.string.initiating),
             style = TextStyle(
                 fontSize = 30.sp,
                 fontFamily = monserratMedium,
-                color = Color(0xFF93C464),
+                color = color_verde,
                 letterSpacing = 0.25.em
             )
         )
         Text(
-            text = "SESION",
+            text = stringResource(id = R.string.sesion),
             style = TextStyle(
                 fontSize = 30.sp,
                 fontFamily = monserratMedium,
-                color = Color(0xFF93C464),
+                color = color_verde,
                 letterSpacing = 0.25.em
             )
         )
         Spacer(modifier = Modifier.height(70.dp))
         Text(
-            text = "Las imagenes generadas por HIDESNAP   enviadas a travez de aplicaciones de META " +
-                    "no podrán ser decodificadas, debido a politicas privadas. ",
+            text = stringResource(id = R.string.meta_message),
             style = TextStyle(
-                fontSize = 18.sp,
+                fontSize = 15.sp,
                 fontFamily = monserratMedium,
-                color = Color(0xFFFFFFFF),
+                color = color_blanco,
                 textAlign = TextAlign.Center
             )
         )
         Spacer(modifier = Modifier.height(30.dp))
         Row(verticalAlignment = Alignment.CenterVertically) {
             Image(
-                painter = painterResource(id = R.drawable.recurso_8),
+                painter = painterResource(id = R.drawable.messenger_logo),
                 contentDescription = "Logo",
                 modifier = Modifier.size(60.dp)
             )
             Spacer(modifier = Modifier.width(20.dp))
             Image(
-                painter = painterResource(id = R.drawable.recurso_9),
+                painter = painterResource(id = R.drawable.whatsapp_logo),
                 contentDescription = "Logo",
                 modifier = Modifier.size(60.dp)
             )
             Spacer(modifier = Modifier.width(20.dp))
             Image(
-                painter = painterResource(id = R.drawable.recurso_4),
+                painter = painterResource(id = R.drawable.instagram_logo),
                 contentDescription = "Logo",
                 modifier = Modifier.size(60.dp)
             )

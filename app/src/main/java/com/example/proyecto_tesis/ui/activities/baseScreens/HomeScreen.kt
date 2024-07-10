@@ -46,6 +46,7 @@ import com.example.proyecto_tesis.ui.viewmodels.AuthViewModel
 import com.example.proyecto_tesis.ui.viewmodels.FirestoreViewModel
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -58,6 +59,9 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.proyecto_tesis.ui.routes.BottomNavGraph
 import com.example.proyecto_tesis.ui.routes.BottomNavScreen
+import com.example.proyecto_tesis.ui.theme.color_barra
+import com.example.proyecto_tesis.ui.theme.color_blanco
+import com.example.proyecto_tesis.ui.theme.color_verde
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -103,7 +107,6 @@ fun HomeScreen(navigation: NavController) {
             }
         }
     }
-
     Scaffold(
         topBar = {
             TopAppBar(
@@ -119,7 +122,7 @@ fun HomeScreen(navigation: NavController) {
                                     .crossfade(true)
                                     .build(),
                                 contentDescription = "Imagen",
-                                placeholder = painterResource(id = R.drawable.ic_profilel),
+                                placeholder = painterResource(id = R.drawable.recurso_15),
                                 contentScale = ContentScale.Crop,
                                 modifier = Modifier
                                     .clip(CircleShape)
@@ -127,7 +130,7 @@ fun HomeScreen(navigation: NavController) {
                             )
                         } else {
                             Image(
-                                painter = painterResource(R.drawable.ic_profilel),
+                                painter = painterResource(R.drawable.icono_app_2),
                                 contentDescription = "Foto de perfil por defecto",
                                 modifier = Modifier
                                     .padding(end = 8.dp)
@@ -135,26 +138,28 @@ fun HomeScreen(navigation: NavController) {
                                     .clip(CircleShape)
                             )
                         }
-
                         Spacer(modifier = Modifier.width(10.dp))
-
                         Column {
                             Text(
                                 text = if (!user?.displayName.isNullOrEmpty()) "Hola ${user?.displayName}" else "Bienvenido",
                                 fontSize = 20.sp,
                                 maxLines = 1,
-                                overflow = TextOverflow.Ellipsis
+                                overflow = TextOverflow.Ellipsis,
+                                color = color_blanco
                             )
                             Text(
                                 text = if (!user?.email.isNullOrEmpty()) "${user?.email}" else "Anónimo",
                                 fontSize = 12.sp,
                                 maxLines = 1,
-                                overflow = TextOverflow.Ellipsis
+                                overflow = TextOverflow.Ellipsis,
+                                color=color_verde
                             )
                         }
                     }
                 },
-                colors = TopAppBarDefaults.smallTopAppBarColors(),
+                colors = TopAppBarDefaults.smallTopAppBarColors(
+                    containerColor = color_barra
+                ),
                 actions = {
                     IconButton(
                         onClick = {
@@ -163,6 +168,7 @@ fun HomeScreen(navigation: NavController) {
                     ) {
                         Icon(
                             Icons.Outlined.Delete,
+                            tint = color_verde,
                             contentDescription = stringResource(id = R.string.delete_user)
                         )
                     }
@@ -173,6 +179,7 @@ fun HomeScreen(navigation: NavController) {
                     ) {
                         Icon(
                             Icons.Outlined.ExitToApp,
+                            tint = color_verde,
                             contentDescription = stringResource(id = R.string.close_sesion)
                         )
                     }
@@ -181,10 +188,10 @@ fun HomeScreen(navigation: NavController) {
         },
         bottomBar = {
             BottomBar(navController = navController)
-        }
+        },
+
     ) { contentPadding ->
         Box(modifier = Modifier.padding(contentPadding)) {
-
             if (showDialogExit) {
                 LogoutDialog(onConfirmLogout = {
                     onLogoutConfirmed()
@@ -228,7 +235,6 @@ fun LogoutDialog(
     )
 }
 
-
 @Composable
 fun DeleteDialog(
     onDeleteLogout: () -> Unit, onDismiss: () -> Unit
@@ -264,9 +270,10 @@ fun BottomBar(
         BottomNavScreen.Decodification,
         BottomNavScreen.Information
     )
+
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
-    NavigationBar {
+    NavigationBar(containerColor = color_barra) {
         screens.forEach { screen ->
             if (currentDestination != null) {
                 AddItem(
@@ -286,8 +293,8 @@ fun RowScope.AddItem(
     navController: NavHostController
 ) {
     NavigationBarItem(
-        label = { Text(text = screen.title) },
-        icon = { Icon(painter = painterResource(screen.icon), contentDescription = "Icons") },
+        label = { Text(text = screen.title, color = color_verde) },
+        icon = { Icon(painter = painterResource(screen.icon), contentDescription = "Icons", tint = color_verde) },
         selected = currentDestination.hierarchy.any {
             it.route == screen.route
         },

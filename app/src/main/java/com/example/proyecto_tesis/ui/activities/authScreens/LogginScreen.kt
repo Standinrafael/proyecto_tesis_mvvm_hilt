@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -26,6 +25,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -47,20 +47,16 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.text.style.TextDecoration
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.proyecto_tesis.R
 import com.example.proyecto_tesis.ui.routes.Routes
-import com.example.proyecto_tesis.ui.theme.Purple40
 import com.example.proyecto_tesis.ui.viewmodels.AuthViewModel
 import com.example.proyecto_tesis.ui.viewmodels.FirestoreViewModel
 import com.example.proyecto_tesis.utils.AuthRes
@@ -68,8 +64,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.firebase.auth.GoogleAuthProvider
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.LifecycleOwner
-import androidx.navigation.compose.rememberNavController
-import com.example.proyecto_tesis.ui.theme.Proyecto_tesisTheme
+import com.example.proyecto_tesis.ui.theme.color_azul
+import com.example.proyecto_tesis.ui.theme.color_verde
 import com.example.proyecto_tesis.utils.monserratLight
 import com.example.proyecto_tesis.utils.monserratMedium
 import com.example.proyecto_tesis.utils.monserratSemiBold
@@ -86,10 +82,8 @@ fun LogginScreen(navigation: NavController) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
 
-
     val authViewModel: AuthViewModel = hiltViewModel()
     val firestoreViewModel: FirestoreViewModel = hiltViewModel()
-
 
     val googleSignInLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartActivityForResult()
@@ -138,7 +132,6 @@ fun LogginScreen(navigation: NavController) {
             }
         }
     }
-
     Box(modifier = Modifier.fillMaxSize()) {
         ClickableText(
             text = AnnotatedString(stringResource(id = R.string.question_create_account)),
@@ -151,7 +144,7 @@ fun LogginScreen(navigation: NavController) {
             style = TextStyle(
                 fontSize = 14.sp,
                 fontFamily = monserratLight,
-                color = Color(0xFF93C464)
+                color = color_verde
             )
         )
     }
@@ -160,64 +153,81 @@ fun LogginScreen(navigation: NavController) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-
         Image(
             painter = painterResource(id = R.drawable.archivo),
             contentDescription = "Logo",
             modifier = Modifier.size(60.dp)
         )
-        Row(verticalAlignment = Alignment.CenterVertically){
+        Row(verticalAlignment = Alignment.CenterVertically) {
             Text(
-                "H I D E",
-                fontSize = 25.sp,
-                fontWeight = FontWeight.Bold,
-                fontFamily =monserratSemiBold,
-                color = Color(0xFF125E73)
-            )
-            Spacer(modifier = Modifier.width(10.dp))
-            Text(
-                "S N A P",
+                stringResource(id = R.string.hide),
                 fontSize = 25.sp,
                 fontWeight = FontWeight.Bold,
                 fontFamily = monserratSemiBold,
-                color = Color(0xFF93C464)
+                color = color_azul,
+                letterSpacing = 0.25.em
+            )
+            Spacer(modifier = Modifier.width(10.dp))
+            Text(
+                stringResource(id = R.string.snap),
+                fontSize = 25.sp,
+                fontWeight = FontWeight.Bold,
+                fontFamily = monserratSemiBold,
+                color = color_verde,
+                letterSpacing = 0.25.em
             )
         }
-
         Spacer(modifier = Modifier.height(60.dp))
         Text(
             text = stringResource(id = R.string.login),
-            style = TextStyle(fontSize = 30.sp, color = Color(0xFF93C464), fontFamily = monserratSemiBold)
+            style = TextStyle(
+                fontSize = 30.sp,
+                color = color_verde,
+                fontFamily = monserratSemiBold,
+                letterSpacing = 0.25.em
+            )
         )
-
         Spacer(modifier = Modifier.height(30.dp))
         TextField(
-            label = { Text(text = stringResource(id = R.string.email), fontFamily = monserratLight, color = Color.Gray) },
+            label = {
+                Text(
+                    text = stringResource(id = R.string.email),
+                    fontFamily = monserratLight,
+                    color = Color.Black
+                )
+            },
             value = email,
-            modifier = Modifier.height(30.dp),
-            shape =RoundedCornerShape(15.dp) ,
+            modifier = Modifier.height(60.dp),
+            shape = RoundedCornerShape(15.dp),
             colors = TextFieldDefaults.textFieldColors(
                 containerColor = Color.White,
                 focusedIndicatorColor = Color.Transparent,
+                focusedTextColor = Color.Black,
+                unfocusedTextColor = Color.Black,
                 unfocusedIndicatorColor = Color.Transparent
-
             ),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
             onValueChange = { email = it })
         Spacer(modifier = Modifier.height(40.dp))
         TextField(
             value = password,
-            shape =RoundedCornerShape(15.dp) ,
-            modifier = Modifier.height(30.dp),
+            shape = RoundedCornerShape(15.dp),
+            modifier = Modifier.height(60.dp),
             colors = TextFieldDefaults.textFieldColors(
                 containerColor = Color.White,
                 focusedIndicatorColor = Color.Transparent,
+                focusedTextColor = Color.Black,
+                unfocusedTextColor = Color.Black,
                 unfocusedIndicatorColor = Color.Transparent
             ),
             onValueChange = { password = it },
-            label = { Text(text = stringResource(id = R.string.password), fontFamily =monserratLight, color = Color.Gray) },
-
-            // Observar la contraseña
+            label = {
+                Text(
+                    text = stringResource(id = R.string.password),
+                    fontFamily = monserratLight,
+                    color = Color.Black
+                )
+            },
             visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
             trailingIcon = {
                 IconButton(onClick = { passwordVisibility = !passwordVisibility }) {
@@ -229,7 +239,6 @@ fun LogginScreen(navigation: NavController) {
             }
         )
         Spacer(modifier = Modifier.height(50.dp))
-
         Box(modifier = Modifier.padding(40.dp, 0.dp, 40.dp, 0.dp)) {
             Button(
                 onClick = {
@@ -263,11 +272,17 @@ fun LogginScreen(navigation: NavController) {
                     }
                 },
                 shape = RoundedCornerShape(50.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = color_verde),
                 modifier = Modifier
                     .width(230.dp)
                     .height(50.dp)
             ) {
-                Text(text = stringResource(id = R.string.sign_in), fontFamily = monserratMedium, color = Color(0xFF125E73),fontWeight = FontWeight.Bold)
+                Text(
+                    text = stringResource(id = R.string.sign_in),
+                    fontFamily = monserratMedium,
+                    color = color_azul,
+                    fontWeight = FontWeight.Bold
+                )
             }
         }
         Spacer(modifier = Modifier.height(20.dp))
@@ -279,11 +294,14 @@ fun LogginScreen(navigation: NavController) {
             style = TextStyle(
                 fontSize = 14.sp,
                 fontFamily = monserratLight,
-                color = Color(0xFF93C464)
+                color = color_verde
             )
         )
         Spacer(modifier = Modifier.height(25.dp))
-        Text(text = "_________________________________________", style = TextStyle(color = Color(0xFF93C464)))
+        Text(
+            text = "_________________________________________",
+            style = TextStyle(color = color_verde)
+        )
         Spacer(modifier = Modifier.height(25.dp))
         SocialMediaButton(
             onClick = {

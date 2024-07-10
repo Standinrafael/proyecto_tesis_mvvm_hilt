@@ -14,6 +14,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -29,11 +30,15 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -46,6 +51,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -57,6 +63,10 @@ import androidx.core.content.FileProvider
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
 import com.example.proyecto_tesis.R
+import com.example.proyecto_tesis.ui.theme.color_azul
+import com.example.proyecto_tesis.ui.theme.color_barra
+import com.example.proyecto_tesis.ui.theme.color_blanco
+import com.example.proyecto_tesis.ui.theme.color_verde
 import com.example.proyecto_tesis.ui.viewmodels.ImageUtilsViewModel
 import com.example.proyecto_tesis.ui.viewmodels.SteganographyViewModel
 import com.example.proyecto_tesis.utils.ImageUtils
@@ -82,9 +92,10 @@ fun EncodeScreen() {
             .padding(16.dp)
     ) {
         Text(
-            text = "Seleccione la imagen",
+            text = stringResource(id = R.string.choose_image),
             style = MaterialTheme.typography.bodyLarge,
-            modifier = Modifier.align(Alignment.CenterHorizontally)
+            modifier = Modifier.align(Alignment.CenterHorizontally).
+            padding(0.dp,10.dp,0.dp,0.dp)
         )
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             PickImageFromGallery(steganographyViewModel, imageUtilsViewModel)
@@ -137,9 +148,10 @@ fun PickImageFromGallery(
 
         Box(
             modifier = Modifier
-                .size(100.dp)
+                .size(250.dp)
                 .padding(5.dp)
-                .border(BorderStroke(2.dp, Color.DarkGray))
+                .border(BorderStroke(2.dp, color_barra))
+                .background(color = Color.LightGray)
         ) {
             imageUri?.let {
                 if (imageUri!!.path?.isNotEmpty() == true) {
@@ -155,22 +167,38 @@ fun PickImageFromGallery(
         Spacer(modifier = Modifier.height(5.dp))
 
         Row {
-            Button(onClick = { launcher.launch("image/*") }) {
-                Text(text = stringResource(id = R.string.galery))
+            Button(
+                onClick = { launcher.launch("image/*") },
+                colors = ButtonDefaults.buttonColors(containerColor = color_barra)
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.galeria),
+                    tint = color_verde,
+                    contentDescription = "galeria",
+                    modifier = Modifier.size(24.dp)
+                )
             }
 
-            Spacer(modifier = Modifier.width(8.dp))
+            Spacer(modifier = Modifier.width(12.dp))
 
-            Button(onClick = {
-                val permissionCheckResult =
-                    ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA)
-                if (permissionCheckResult == PackageManager.PERMISSION_GRANTED) {
-                    cameraLauncher.launch(uri)
-                } else {
-                    permissionLauncher.launch(Manifest.permission.CAMERA)
-                }
-            }) {
-                Text(text = stringResource(id = R.string.camera))
+            Button(
+                onClick = {
+                    val permissionCheckResult =
+                        ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA)
+                    if (permissionCheckResult == PackageManager.PERMISSION_GRANTED) {
+                        cameraLauncher.launch(uri)
+                    } else {
+                        permissionLauncher.launch(Manifest.permission.CAMERA)
+                    }
+                },
+                colors = ButtonDefaults.buttonColors(containerColor = color_barra)
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.camara),
+                    tint = color_verde,
+                    contentDescription = "camara",
+                    modifier = Modifier.size(24.dp)
+                )
             }
         }
         Spacer(modifier = Modifier.height(5.dp))
@@ -233,9 +261,11 @@ fun PickImageFromGallery2(
 
         Box(
             modifier = Modifier
-                .size(100.dp)
+                .size(250.dp)
                 .padding(5.dp)
-                .border(BorderStroke(2.dp, Color.DarkGray))
+                .border(BorderStroke(2.dp, color_barra))
+                .background(color = Color.LightGray)
+
         ) {
             imageUri?.let {
                 if (imageUri!!.path?.isNotEmpty() == true) {
@@ -251,22 +281,38 @@ fun PickImageFromGallery2(
         Spacer(modifier = Modifier.height(5.dp))
 
         Row {
-            Button(onClick = { launcher.launch("image/*") }) {
-                Text(text = stringResource(id = R.string.galery))
+            Button(
+                onClick = { launcher.launch("image/*") },
+                colors = ButtonDefaults.buttonColors(containerColor = color_barra)
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.galeria),
+                    tint = color_verde,
+                    contentDescription = "galeria",
+                    modifier = Modifier.size(24.dp)
+                )
             }
 
-            Spacer(modifier = Modifier.width(8.dp))
+            Spacer(modifier = Modifier.width(12.dp))
 
-            Button(onClick = {
-                val permissionCheckResult =
-                    ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA)
-                if (permissionCheckResult == PackageManager.PERMISSION_GRANTED) {
-                    cameraLauncher.launch(uri)
-                } else {
-                    permissionLauncher.launch(Manifest.permission.CAMERA)
-                }
-            }) {
-                Text(text = stringResource(id = R.string.camera))
+            Button(
+                onClick = {
+                    val permissionCheckResult =
+                        ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA)
+                    if (permissionCheckResult == PackageManager.PERMISSION_GRANTED) {
+                        cameraLauncher.launch(uri)
+                    } else {
+                        permissionLauncher.launch(Manifest.permission.CAMERA)
+                    }
+                },
+                colors = ButtonDefaults.buttonColors(containerColor = color_barra)
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.camara),
+                    tint = color_verde,
+                    contentDescription = "camara",
+                    modifier = Modifier.size(24.dp)
+                )
             }
         }
         Spacer(modifier = Modifier.height(5.dp))
@@ -279,7 +325,7 @@ fun PickImageFromGallery2(
 }
 
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
-@OptIn(ExperimentalPermissionsApi::class)
+@OptIn(ExperimentalPermissionsApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun encodeButton(
     inputImage: String?,
@@ -335,26 +381,32 @@ fun encodeButton(
         }
     }
 
+    Text(
+        stringResource(id = R.string.limited_caracter),
+        style = MaterialTheme.typography.bodySmall,
+        color = color_blanco
+    )
+
     OutlinedTextField(
         value = message,
         onValueChange = { newMessage ->
             steganographyViewModel.updateMessage(newMessage)
         },
-        label = {
-            Text(
-                stringResource(id = R.string.limited_caracter),
-                style = MaterialTheme.typography.bodySmall
-            )
-        },
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Text, imeAction = ImeAction.Next
         ),
+        colors = TextFieldDefaults.outlinedTextFieldColors(
+            containerColor = color_blanco,
+            focusedTextColor = Color.Black,
+            unfocusedTextColor = Color.Black
+        )
     )
     Spacer(modifier = Modifier.height(15.dp))
 
     if (isLoading) {
         MyLoader()
     }
+    Spacer(modifier = Modifier.height(15.dp))
 
     toastMessage?.let {
         Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
@@ -370,59 +422,68 @@ fun encodeButton(
     )
     val ctx = LocalContext.current
 
-    Button(onClick = {
-        permission.launchMultiplePermissionRequest()
+    Button(
+        onClick = {
+            permission.launchMultiplePermissionRequest()
 
-        val p = if (Build.VERSION.SDK_INT > Build.VERSION_CODES.Q) {
-            permission.permissions[0].status.isGranted
-        } else {
-            permission.permissions.all {
-                it.status.isGranted
-            }
-        }
-
-        if (p) {
-            if (inputImage.isNullOrEmpty()) {
-                Toast.makeText(
-                    context, "Debe seleccionar una imagen primero", Toast.LENGTH_SHORT
-                ).show()
-                return@Button
-            }
-
-            scope.launch {
-                val uri = steganographyViewModel.injectEncryption(
-                    inputImage,
-                    message,
-                    outputImage,
-                    context.contentResolver
-                )
-                if (uri != null) {
-                    Toast.makeText(
-                        context,
-                        "Se encriptó la imagen guardada en imágenes - external SD",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    Log.i("infocompresed", uri.toString())
-                } else {
-                    Toast.makeText(
-                        context,
-                        "Error al encriptar la imagen",
-                        Toast.LENGTH_SHORT
-                    ).show()
+            val p = if (Build.VERSION.SDK_INT > Build.VERSION_CODES.Q) {
+                permission.permissions[0].status.isGranted
+            } else {
+                permission.permissions.all {
+                    it.status.isGranted
                 }
             }
-        } else {
-            Toast.makeText(ctx, "Permiso denegado", Toast.LENGTH_SHORT).show()
-        }
-    }) {
-        Text(text = stringResource(id = R.string.converter))
+            if (p) {
+                if (inputImage.isNullOrEmpty()) {
+                    Toast.makeText(
+                        context, "Debe seleccionar una imagen primero", Toast.LENGTH_SHORT
+                    ).show()
+                    return@Button
+                }
+
+                scope.launch {
+                    val uri = steganographyViewModel.injectEncryption(
+                        inputImage,
+                        message,
+                        outputImage,
+                        context.contentResolver
+                    )
+                    if (uri != null) {
+                        Toast.makeText(
+                            context,
+                            "Se encriptó la imagen guardada en imágenes - external SD",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        Log.i("infocompresed", uri.toString())
+                    } else {
+                        Toast.makeText(
+                            context,
+                            "Error al encriptar la imagen",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+            } else {
+                Toast.makeText(ctx, "Permiso denegado", Toast.LENGTH_SHORT).show()
+            }
+        },
+        colors = ButtonDefaults.buttonColors(containerColor = color_verde)
+    ) {
+        Icon(
+            painter = painterResource(id = R.drawable.candado),
+            tint = color_azul,
+            contentDescription = "encode image",
+            modifier = Modifier.size(24.dp)
+        )
+        Text(text = stringResource(id = R.string.converter), color = color_azul)
     }
+    Spacer(modifier = Modifier.height(12.dp))
     ShareImageButton(imageEncodeUri)
 }
 
 
 @RequiresApi(Build.VERSION_CODES.Q)
-@OptIn(ExperimentalPermissionsApi::class)
+@OptIn(ExperimentalPermissionsApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun encodeButton2(
     inputImage: String?,
@@ -478,91 +539,109 @@ fun encodeButton2(
         }
     }
 
+    Text(
+        stringResource(id = R.string.limited_caracter),
+        style = MaterialTheme.typography.bodySmall,
+        color = Color.White
+    )
+
     OutlinedTextField(
         value = message,
         onValueChange = { newMessage ->
             steganographyViewModel.updateMessage(newMessage)
         },
-        label = {
-            Text(
-                stringResource(id = R.string.limited_caracter),
-                style = MaterialTheme.typography.bodySmall
-            )
-        },
+
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Text, imeAction = ImeAction.Next
         ),
+        colors = TextFieldDefaults.outlinedTextFieldColors(
+            containerColor = color_blanco,
+            focusedTextColor = Color.Black,
+            unfocusedTextColor = Color.Black
+        )
     )
     Spacer(modifier = Modifier.height(15.dp))
 
     if (isLoading) {
         MyLoader()
     }
+    Spacer(modifier = Modifier.height(15.dp))
 
     toastMessage?.let {
         Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
         steganographyViewModel.clearToastMessage()
     }
 
-    Button(onClick = {
-        if (inputImage.isNullOrEmpty()) {
-            Toast.makeText(context, "Debe seleccionar una imagen primero", Toast.LENGTH_SHORT)
-                .show()
-            return@Button
-        }
-        when {
-            ContextCompat.checkSelfPermission(
-                context, Manifest.permission.READ_EXTERNAL_STORAGE
-            ) == PackageManager.PERMISSION_GRANTED -> {
-                when {
-                    ContextCompat.checkSelfPermission(
-                        context, Manifest.permission.WRITE_EXTERNAL_STORAGE
-                    ) == PackageManager.PERMISSION_GRANTED -> {
-                        scope.launch {
-                            val uri = steganographyViewModel.injectEncryption(
-                                inputImage,
-                                message,
-                                outputImage,
-                                context.contentResolver
-                            )
-                            if (uri != null) {
+    Button(
+        onClick = {
+            if (inputImage.isNullOrEmpty()) {
+                Toast.makeText(context, "Debe seleccionar una imagen primero", Toast.LENGTH_SHORT)
+                    .show()
+                return@Button
+            }
+            when {
+                ContextCompat.checkSelfPermission(
+                    context, Manifest.permission.READ_EXTERNAL_STORAGE
+                ) == PackageManager.PERMISSION_GRANTED -> {
+                    when {
+                        ContextCompat.checkSelfPermission(
+                            context, Manifest.permission.WRITE_EXTERNAL_STORAGE
+                        ) == PackageManager.PERMISSION_GRANTED -> {
+                            scope.launch {
+                                val uri = steganographyViewModel.injectEncryption(
+                                    inputImage,
+                                    message,
+                                    outputImage,
+                                    context.contentResolver
+                                )
+                                if (uri != null) {
 
-                                Toast.makeText(
-                                    context,
-                                    "Se encriptó la imagen guardada en imágenes - external SD",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            } else {
-                                Toast.makeText(
-                                    context,
-                                    "Error al encriptar la imagen",
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                                    Toast.makeText(
+                                        context,
+                                        "Se encriptó la imagen guardada en imágenes - external SD",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                } else {
+                                    Toast.makeText(
+                                        context,
+                                        "Error al encriptar la imagen",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
                             }
                         }
-                    }
 
-                    else -> {
-                        writePermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        else -> {
+                            writePermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        }
                     }
                 }
-            }
 
-            else -> {
-                readPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+                else -> {
+                    readPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+                }
             }
-        }
-    }) {
-        Text(text = stringResource(id = R.string.converter))
+        },
+        colors = ButtonDefaults.buttonColors(containerColor = color_verde)
+    ) {
+        Icon(
+            painter = painterResource(id = R.drawable.candado),
+            tint = color_azul,
+            contentDescription = "encode image",
+            modifier = Modifier.size(24.dp)
+        )
+        Text(text = stringResource(id = R.string.converter), color = color_azul)
     }
+    Spacer(modifier = Modifier.height(12.dp))
     ShareImageButton(imageEncodeUri)
 }
-
 
 @Composable
 fun MyLoader() {
     LinearProgressIndicator(
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth(),
+        color = color_verde,
+        trackColor = color_azul
     )
 }
 
@@ -584,10 +663,22 @@ fun ShareImageButton(uriToImage2: Uri?) {
             } else {
                 showDialog = true
             }
-        }
+        },
+        colors = ButtonDefaults.buttonColors(
+            disabledContainerColor = Color.Transparent,
+            containerColor = Color.Transparent
+
+        )
+
     )
     {
-        Text(stringResource(id = R.string.share_image))
+        Icon(
+            painter = painterResource(id = R.drawable.compartir),
+            contentDescription = "share_image",
+            tint = color_verde,
+            modifier = Modifier.size(24.dp)
+        )
+        Text(stringResource(id = R.string.share_image), color = color_verde)
     }
 
     if (showDialog) {

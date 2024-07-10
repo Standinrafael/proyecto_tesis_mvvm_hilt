@@ -55,6 +55,11 @@
     <string name="go_to_home">Regresar al menú de inicio</string>
     <string name="codification">Codificación</string>
     <string name="decode">DECODIFICAR</string>
-    <string name="login">L O G I N</string>
+    <string name="login">LOGIN</string>
     <string name="forget_passwor_message">Para recuperarla, ingrese su correo electrónico</string>
+    <string name="initiating">INICIANDO</string>
+    <string name="sesion">SESION</string>
+    <string name="meta_message">Las imagenes generadas por HIDESNAP y enviadas a travez de aplicaciones de META n podrán ser decodificadas, debido a politicas privadas.</string>
+    <string name="hide">HIDE</string>
+    <string name="snap">SNAP</string>
 </resources>
