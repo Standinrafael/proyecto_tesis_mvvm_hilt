@@ -27,11 +27,13 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
@@ -53,16 +55,19 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.example.proyecto_tesis.ui.viewmodels.AuthViewModel
 import com.example.proyecto_tesis.ui.viewmodels.FirestoreViewModel
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
 import com.example.proyecto_tesis.R
+import com.example.proyecto_tesis.ui.theme.BackgroundColor
 import com.example.proyecto_tesis.ui.theme.color_azul
 import com.example.proyecto_tesis.ui.theme.color_barra
 import com.example.proyecto_tesis.ui.theme.color_blanco
@@ -70,6 +75,10 @@ import com.example.proyecto_tesis.ui.theme.color_verde
 import com.example.proyecto_tesis.ui.viewmodels.ImageUtilsViewModel
 import com.example.proyecto_tesis.ui.viewmodels.SteganographyViewModel
 import com.example.proyecto_tesis.utils.ImageUtils
+import com.example.proyecto_tesis.utils.monserratLight
+import com.example.proyecto_tesis.utils.monserratMedium
+import com.example.proyecto_tesis.utils.monserratRegular
+import com.example.proyecto_tesis.utils.monserratSemiBold
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
@@ -94,8 +103,9 @@ fun EncodeScreen() {
         Text(
             text = stringResource(id = R.string.choose_image),
             style = MaterialTheme.typography.bodyLarge,
-            modifier = Modifier.align(Alignment.CenterHorizontally).
-            padding(0.dp,10.dp,0.dp,0.dp)
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally)
+                .padding(0.dp, 10.dp, 0.dp, 0.dp)
         )
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             PickImageFromGallery(steganographyViewModel, imageUtilsViewModel)
@@ -669,7 +679,6 @@ fun ShareImageButton(uriToImage2: Uri?) {
             containerColor = Color.Transparent
 
         )
-
     )
     {
         Icon(
@@ -684,35 +693,70 @@ fun ShareImageButton(uriToImage2: Uri?) {
     if (showDialog) {
         AlertDialog(
             onDismissRequest = { showDialog = false },
-            title = { Text(stringResource(id = R.string.title_dialog_message)) },
+            containerColor = BackgroundColor,
+            title = {
+                Text(
+                    stringResource(id = R.string.title_dialog_message),
+                    style = TextStyle(
+                        fontSize = 17.sp,
+                        fontFamily = monserratSemiBold,
+                        color = color_blanco
+                    )
+                )
+            },
             text = {
                 Column(
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
-                        stringResource(id = R.string.dialog_message_meta_applications)
+                        stringResource(id = R.string.dialog_message_meta_applications),
+                        style = TextStyle(
+                            fontSize = 14.sp,
+                            fontFamily = monserratRegular,
+                            color = color_blanco
+                        )
                     )
                     Row(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Checkbox(
                             checked = rememberCheckBoxState,
-                            onCheckedChange = { rememberCheckBoxState = it }
+                            onCheckedChange = { rememberCheckBoxState = it },
+                            colors = CheckboxDefaults.colors(
+                                checkedColor = color_azul,
+                                uncheckedColor = color_blanco,
+                                checkmarkColor = color_blanco
+                            )
                         )
-                        Text(stringResource(id = R.string.dialog_message))
+                        Text(
+                            stringResource(id = R.string.dialog_message),
+                            style = TextStyle(
+                                fontSize = 14.sp,
+                                fontFamily = monserratLight,
+                                color = color_blanco
+                            )
+                        )
                     }
                 }
             },
             confirmButton = {
                 Button(
+                    shape = RoundedCornerShape(size = 50.dp),
+                    colors = ButtonDefaults.buttonColors(containerColor = color_verde),
                     onClick = {
                         showDialog = false
                         saveCheckboxState(context, rememberCheckBoxState)
                         shareImage(context, uriToImage2)
                     }
                 ) {
-                    Text(stringResource(id = R.string.accept_dialog))
+                    Text(
+                        stringResource(id = R.string.accept_dialog),
+                        style = TextStyle(
+                            fontFamily = monserratMedium,
+                            color = color_azul
+                        )
+                    )
                 }
             }
         )
