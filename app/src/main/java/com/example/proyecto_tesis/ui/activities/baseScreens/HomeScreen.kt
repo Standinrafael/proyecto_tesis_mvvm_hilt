@@ -12,11 +12,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.ExitToApp
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -48,6 +50,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavDestination
@@ -59,9 +62,14 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.proyecto_tesis.ui.routes.BottomNavGraph
 import com.example.proyecto_tesis.ui.routes.BottomNavScreen
+import com.example.proyecto_tesis.ui.theme.BackgroundColor
+import com.example.proyecto_tesis.ui.theme.color_azul
 import com.example.proyecto_tesis.ui.theme.color_barra
 import com.example.proyecto_tesis.ui.theme.color_blanco
 import com.example.proyecto_tesis.ui.theme.color_verde
+import com.example.proyecto_tesis.utils.monserratMedium
+import com.example.proyecto_tesis.utils.monserratRegular
+import com.example.proyecto_tesis.utils.monserratSemiBold
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -152,7 +160,7 @@ fun HomeScreen(navigation: NavController) {
                                 fontSize = 12.sp,
                                 maxLines = 1,
                                 overflow = TextOverflow.Ellipsis,
-                                color=color_verde
+                                color = color_verde
                             )
                         }
                     }
@@ -190,7 +198,7 @@ fun HomeScreen(navigation: NavController) {
             BottomBar(navController = navController)
         },
 
-    ) { contentPadding ->
+        ) { contentPadding ->
         Box(modifier = Modifier.padding(contentPadding)) {
             if (showDialogExit) {
                 LogoutDialog(onConfirmLogout = {
@@ -216,20 +224,55 @@ fun LogoutDialog(
 ) {
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text(stringResource(id = R.string.close_sesion)) },
-        text = { Text(stringResource(id = R.string.question_close_sesion)) },
+        containerColor = BackgroundColor,
+        title = {
+            Text(
+                stringResource(id = R.string.close_sesion),
+                style = TextStyle(
+                    fontSize = 17.sp,
+                    fontFamily = monserratSemiBold,
+                    color = color_blanco
+                )
+            )
+        },
+        text = {
+            Text(
+                stringResource(id = R.string.question_close_sesion),
+                style = TextStyle(
+                    fontSize = 14.sp,
+                    fontFamily = monserratRegular,
+                    color = color_blanco
+                )
+            )
+        },
         confirmButton = {
             Button(
+                shape = RoundedCornerShape(size = 50.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = color_verde),
                 onClick = onConfirmLogout
             ) {
-                Text(stringResource(id = R.string.yes))
+                Text(
+                    stringResource(id = R.string.yes),
+                    style = TextStyle(
+                        fontFamily = monserratMedium,
+                        color = color_azul
+                    )
+                )
             }
         },
         dismissButton = {
             Button(
+                shape = RoundedCornerShape(size = 50.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = color_verde),
                 onClick = onDismiss
             ) {
-                Text(stringResource(id = R.string.no))
+                Text(
+                    stringResource(id = R.string.no),
+                    style = TextStyle(
+                        fontFamily = monserratMedium,
+                        color = color_azul
+                    )
+                )
             }
         }
     )
@@ -241,20 +284,55 @@ fun DeleteDialog(
 ) {
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text(stringResource(id = R.string.delete_account)) },
-        text = { Text(stringResource(id = R.string.question_delete_user)) },
+        containerColor = BackgroundColor,
+        title = {
+            Text(
+                stringResource(id = R.string.delete_account),
+                style = TextStyle(
+                    fontSize = 17.sp,
+                    fontFamily = monserratSemiBold,
+                    color = color_blanco
+                )
+            )
+        },
+        text = {
+            Text(
+                stringResource(id = R.string.question_delete_user),
+                style = TextStyle(
+                    fontSize = 14.sp,
+                    fontFamily = monserratRegular,
+                    color = color_blanco
+                )
+            )
+        },
         confirmButton = {
             Button(
+                shape = RoundedCornerShape(size = 50.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = color_verde),
                 onClick = onDeleteLogout
             ) {
-                Text(stringResource(id = R.string.yes))
+                Text(
+                    stringResource(id = R.string.yes),
+                    style = TextStyle(
+                        fontFamily = monserratMedium,
+                        color = color_azul
+                    )
+                )
             }
         },
         dismissButton = {
             Button(
+                shape = RoundedCornerShape(size = 50.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = color_verde),
                 onClick = onDismiss
             ) {
-                Text(stringResource(id = R.string.no))
+                Text(
+                    stringResource(id = R.string.no),
+                    style = TextStyle(
+                        fontFamily = monserratMedium,
+                        color = color_azul
+                    )
+                )
             }
         }
     )
@@ -294,7 +372,13 @@ fun RowScope.AddItem(
 ) {
     NavigationBarItem(
         label = { Text(text = screen.title, color = color_verde) },
-        icon = { Icon(painter = painterResource(screen.icon), contentDescription = "Icons", tint = color_verde) },
+        icon = {
+            Icon(
+                painter = painterResource(screen.icon),
+                contentDescription = "Icons",
+                tint = color_verde
+            )
+        },
         selected = currentDestination.hierarchy.any {
             it.route == screen.route
         },
