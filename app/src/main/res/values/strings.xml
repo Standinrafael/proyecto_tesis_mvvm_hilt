@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">proyecto_tesis</string>
+    <string name="app_name">HIDESNAP</string>
     <string name="olvido_contrasenia_header">Olvido su contrasenia</string>
     <string name="correo_electronico_label">Correo Electronico</string>
     <string name="recuperar_contrasenia_button">Recuperar contrasenia</string>
@@ -26,8 +26,7 @@
     <string name="converter">CODIFICAR</string>
     <string name="share_image">COMPARTIR IMAGEN</string>
     <string name="dialog_message">Mostrar este diálogo la próxima vez</string>
-    <string name="dialog_message_meta_applications">Si se envían mensajes por aplicaciones de Meta (WhatsApp, Messenger, Instagram), " +
-                                "no se podrán desencriptar los mensajes.</string>
+    <string name="dialog_message_meta_applications">Si se envían mensajes por aplicaciones de Meta (WhatsApp, Messenger, Instagram), no se podrán desencriptar los mensajes.</string>
     <string name="title_dialog_message">AVISO DE SEGURIDAD DE MENSAJES DE APLICACIONES META</string>
     <string name="accept_dialog">CONFIRMAR</string>
     <string name="choose_image">SELECCIONE UNA IMAGEN</string>

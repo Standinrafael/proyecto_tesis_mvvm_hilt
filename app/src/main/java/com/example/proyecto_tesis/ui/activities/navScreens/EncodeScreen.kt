@@ -160,8 +160,12 @@ fun PickImageFromGallery(
             modifier = Modifier
                 .size(250.dp)
                 .padding(5.dp)
-                .border(BorderStroke(2.dp, color_barra))
-                .background(color = Color.LightGray)
+                .background(Color.LightGray, shape = RoundedCornerShape(size = 20.dp))
+                .border(
+                    width = 2.dp,
+                    shape = RoundedCornerShape(size = 20.dp),
+                    color = color_barra
+                )
         ) {
             imageUri?.let {
                 if (imageUri!!.path?.isNotEmpty() == true) {
@@ -273,9 +277,12 @@ fun PickImageFromGallery2(
             modifier = Modifier
                 .size(250.dp)
                 .padding(5.dp)
-                .border(BorderStroke(2.dp, color_barra))
-                .background(color = Color.LightGray)
-
+                .background(Color.LightGray, shape = RoundedCornerShape(size = 20.dp))
+                .border(
+                    width = 2.dp,
+                    shape = RoundedCornerShape(size = 20.dp),
+                    color = color_barra
+                )
         ) {
             imageUri?.let {
                 if (imageUri!!.path?.isNotEmpty() == true) {
