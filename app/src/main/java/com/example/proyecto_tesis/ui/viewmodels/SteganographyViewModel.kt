@@ -68,36 +68,41 @@ class SteganographyViewModel @Inject constructor(
             }
         }
     }
-
     suspend fun injectEncryption(
         inputImage: String,
         message: String,
         outputImage: String,
         contentResolver: ContentResolver
-    ): Uri? {
+    ): Uri? = withContext(Dispatchers.IO) {
         _isEncrypting.value = true
-        val uri = withContext(Dispatchers.IO) {
-            val userId = _userId.value ?: return@withContext null
-            val password = _password.value ?: return@withContext null
-            steganographyUseCase.injectEncryption(
-                inputImage,
-                message,
-                userId,
-                password,
-                outputImage,
-                contentResolver
-            )
-        }
-        _imageEncodeUri.value = uri
+        val uri = steganographyUseCase.injectEncryption(
+            inputImage,
+            message,
+            userId.value ?: return@withContext null,
+            password.value ?: return@withContext null,
+            outputImage,
+            contentResolver
+        )
         _isEncrypting.value = false
-        return uri
+        _imageEncodeUri.value = uri
+        return@withContext uri
     }
 
 
-    fun extractEncrypt(inputImageName: String, contentResolver: ContentResolver) {
-        viewModelScope.launch(Dispatchers.IO) {
-            val result = steganographyUseCase.extractEncrypt(inputImageName, contentResolver)
-            _extractedMessage.value = result
+    fun extractEncrypt(inputImage: String, contentResolver: ContentResolver) {
+        viewModelScope.launch {
+            val result = steganographyUseCase.extractEncrypt(inputImage, contentResolver)
+            _extractedMessage.value = when (result) {
+                "false" -> {
+                    _toastMessage.value = "No se encontró un mensaje oculto en la imagen"
+                    null
+                }
+                "Usuario no encontrado" -> {
+                    _toastMessage.value = "Usuario ya no existe. No se puede desencriptar el mensaje"
+                    null
+                }
+                else -> result
+            }
         }
     }
 

@@ -32,6 +32,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -61,6 +62,16 @@ import com.google.accompanist.permissions.ExperimentalPermissionsApi
 fun DecodeScreen() {
     val steganographyViewModel: SteganographyViewModel = hiltViewModel()
     val imageUtilsViewModel: ImageUtilsViewModel = hiltViewModel()
+    val context = LocalContext.current
+
+    val toastMessage by steganographyViewModel.toastMessage.collectAsState()
+
+    LaunchedEffect(toastMessage) {
+        toastMessage?.let {
+            Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+            steganographyViewModel.clearToastMessage()
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -69,7 +80,8 @@ fun DecodeScreen() {
     ) {
         Text(
             text = stringResource(id = R.string.choose_image),
-            modifier = Modifier.align(Alignment.CenterHorizontally),
+            modifier = Modifier.align(Alignment.CenterHorizontally)
+                .padding(0.dp, 20.dp, 0.dp, 0.dp),
             style = TextStyle(
                 fontFamily = monserratRegular,
                 color = color_blanco
@@ -134,7 +146,7 @@ fun PickImageFromGalleryDeco(
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.galeria),
-                    contentDescription = "encode image",
+                    contentDescription = "Galería",
                     tint = color_verde,
                     modifier = Modifier.size(24.dp)
                 )
@@ -142,7 +154,6 @@ fun PickImageFromGalleryDeco(
             Spacer(modifier = Modifier.width(10.dp))
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                //DecodificarButton(imageUri?.toString(), steganographyViewModel)
                 val writePermissionLauncher = rememberLauncherForActivityResult(
                     contract = ActivityResultContracts.RequestPermission()
                 ) { isGranted ->
@@ -157,12 +168,10 @@ fun PickImageFromGalleryDeco(
                                 context,
                                 "Debe seleccionar una imagen primero",
                                 Toast.LENGTH_SHORT
-                            )
-                                .show()
+                            ).show()
                         }
                     } else {
-                        Toast.makeText(context, "Permiso de escritura denegado", Toast.LENGTH_SHORT)
-                            .show()
+                        Toast.makeText(context, "Permiso de escritura denegado", Toast.LENGTH_SHORT).show()
                     }
                 }
 
@@ -172,8 +181,7 @@ fun PickImageFromGalleryDeco(
                     if (isGranted) {
                         writePermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                     } else {
-                        Toast.makeText(context, "Permiso de lectura denegado", Toast.LENGTH_SHORT)
-                            .show()
+                        Toast.makeText(context, "Permiso de lectura denegado", Toast.LENGTH_SHORT).show()
                     }
                 }
                 Button(
@@ -184,13 +192,12 @@ fun PickImageFromGalleryDeco(
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.candado_abierto),
-                        contentDescription = "encode image",
+                        contentDescription = "Decodificar imagen",
                         tint = color_azul,
                         modifier = Modifier.size(24.dp)
                     )
                     Text(stringResource(id = R.string.decode), color = color_azul)
                 }
-
 
             } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && Build.VERSION.SDK_INT <= Build.VERSION_CODES.S) {
                 val writePermissionLauncher = rememberLauncherForActivityResult(
@@ -207,16 +214,10 @@ fun PickImageFromGalleryDeco(
                                 context,
                                 "Debe seleccionar una imagen primero",
                                 Toast.LENGTH_SHORT
-                            )
-                                .show()
+                            ).show()
                         }
                     } else {
-                        Toast.makeText(
-                            context,
-                            "Permiso de escritura denegado",
-                            Toast.LENGTH_SHORT
-                        )
-                            .show()
+                        Toast.makeText(context, "Permiso de escritura denegado", Toast.LENGTH_SHORT).show()
                     }
                 }
 
@@ -226,12 +227,7 @@ fun PickImageFromGalleryDeco(
                     if (isGranted) {
                         writePermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                     } else {
-                        Toast.makeText(
-                            context,
-                            "Permiso de lectura denegado",
-                            Toast.LENGTH_SHORT
-                        )
-                            .show()
+                        Toast.makeText(context, "Permiso de lectura denegado", Toast.LENGTH_SHORT).show()
                     }
                 }
                 Button(
@@ -242,7 +238,7 @@ fun PickImageFromGalleryDeco(
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.candado_abierto),
-                        contentDescription = "encode image",
+                        contentDescription = "Decodificar imagen",
                         tint = color_azul,
                         modifier = Modifier.size(24.dp)
                     )
@@ -254,9 +250,12 @@ fun PickImageFromGalleryDeco(
         Text(
             text = messageState ?: "",
             modifier = Modifier
-                .padding(15.dp)
                 .background(color = color_blanco)
-                .fillMaxSize(),
+                .width(280.dp)
+                .height(70.dp)
+                .padding(start = 15.dp, top = 10.dp),
+            color = Color.Black
         )
     }
 }
+

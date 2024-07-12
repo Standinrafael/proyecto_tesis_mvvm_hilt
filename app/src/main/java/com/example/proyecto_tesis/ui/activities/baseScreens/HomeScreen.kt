@@ -231,7 +231,7 @@ fun LogoutDialog(
                 style = TextStyle(
                     fontSize = 17.sp,
                     fontFamily = monserratSemiBold,
-                    color = color_blanco
+                    color = color_verde
                 )
             )
         },
@@ -291,7 +291,7 @@ fun DeleteDialog(
                 style = TextStyle(
                     fontSize = 17.sp,
                     fontFamily = monserratSemiBold,
-                    color = color_blanco
+                    color = color_verde
                 )
             )
         },

@@ -653,6 +653,7 @@ fun encodeButton2(
     ShareImageButton(imageEncodeUri)
 }
 
+
 @Composable
 fun MyLoader() {
     LinearProgressIndicator(
@@ -707,7 +708,7 @@ fun ShareImageButton(uriToImage2: Uri?) {
                     style = TextStyle(
                         fontSize = 17.sp,
                         fontFamily = monserratSemiBold,
-                        color = color_blanco
+                        color = color_verde
                     )
                 )
             },

@@ -1,5 +1,6 @@
 package com.example.proyecto_tesis.logic.usercases
 
+import android.util.Log
 import com.example.proyecto_tesis.data.repository.FirestoreRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -22,7 +23,9 @@ class EncryptionUseCase @Inject constructor(
         try {
             val randomNumber = (1 until message.length).random()
             val encryptedBytes = encryptText(password, message)
-            val (prefix, suffix) = encryptedBytes!!.take(randomNumber) to encryptedBytes.drop(randomNumber)
+            val (prefix, suffix) = encryptedBytes!!.take(randomNumber) to encryptedBytes.drop(
+                randomNumber
+            )
             val encryptedBytes2 = prefix.toByteArray() + idUser.toByte() + suffix.toByteArray()
 
             val encryptedList = mutableListOf<Byte>()
@@ -49,8 +52,16 @@ class EncryptionUseCase @Inject constructor(
     suspend fun decrypt(
         encryptedList: MutableList<Byte>
     ): String = withContext(Dispatchers.IO) {
+        if (encryptedList.isEmpty()) {
+            return@withContext "false"
+        }
         val random = encryptedList[0].toInt()
-        val idUserPos = encryptedList[random + 1].toInt()
+
+        if (random < 0 || random >= encryptedList.size - 1) {
+            return@withContext "false"
+        }
+        val idUserPos = encryptedList.getOrNull(random + 1)?.toInt()
+            ?: return@withContext "Error: Valor idUserPos fuera de rango"
 
         encryptedList.removeAt(0)
         encryptedList.removeAt(random)
