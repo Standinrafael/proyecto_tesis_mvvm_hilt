@@ -191,6 +191,11 @@ fun PickImageFromGallery(
                     contentDescription = "galeria",
                     modifier = Modifier.size(24.dp)
                 )
+                Text(
+                    text = " GALERIA",
+                    color = color_verde,
+                    fontSize = 13.sp
+                )
             }
 
             Spacer(modifier = Modifier.width(12.dp))
@@ -212,6 +217,11 @@ fun PickImageFromGallery(
                     tint = color_verde,
                     contentDescription = "camara",
                     modifier = Modifier.size(24.dp)
+                )
+                Text(
+                    text = " CAMARA",
+                    color = color_verde,
+                    fontSize = 13.sp
                 )
             }
         }
@@ -308,6 +318,11 @@ fun PickImageFromGallery2(
                     contentDescription = "galeria",
                     modifier = Modifier.size(24.dp)
                 )
+                Text(
+                    text = " GALERIA",
+                    color = color_verde,
+                    fontSize = 13.sp
+                )
             }
 
             Spacer(modifier = Modifier.width(12.dp))
@@ -329,6 +344,11 @@ fun PickImageFromGallery2(
                     tint = color_verde,
                     contentDescription = "camara",
                     modifier = Modifier.size(24.dp)
+                )
+                Text(
+                    text = " CAMARA",
+                    color = color_verde,
+                    fontSize = 13.sp
                 )
             }
         }

@@ -46,6 +46,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
 import com.example.proyecto_tesis.R
@@ -149,6 +150,11 @@ fun PickImageFromGalleryDeco(
                     contentDescription = "Galería",
                     tint = color_verde,
                     modifier = Modifier.size(24.dp)
+                )
+                Text(
+                    text = " GALERIA",
+                    color = color_verde,
+                    fontSize = 13.sp
                 )
             }
             Spacer(modifier = Modifier.width(10.dp))
