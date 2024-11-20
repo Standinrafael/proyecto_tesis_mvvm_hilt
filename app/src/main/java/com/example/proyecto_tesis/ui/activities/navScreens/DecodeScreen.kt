@@ -6,6 +6,7 @@ import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -159,7 +160,7 @@ fun PickImageFromGalleryDeco(
             }
             Spacer(modifier = Modifier.width(10.dp))
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&Build.VERSION.SDK_INT <= Build.VERSION_CODES.VANILLA_ICE_CREAM) {
                 val writePermissionLauncher = rememberLauncherForActivityResult(
                     contract = ActivityResultContracts.RequestPermission()
                 ) { isGranted ->
@@ -178,6 +179,7 @@ fun PickImageFromGalleryDeco(
                         }
                     } else {
                         Toast.makeText(context, "Permiso de escritura denegado", Toast.LENGTH_SHORT).show()
+                        Log.d("SDK_VERSION", "El nivel de API actual es: ${Build.VERSION.SDK_INT}")
                     }
                 }
 
@@ -187,6 +189,7 @@ fun PickImageFromGalleryDeco(
                     if (isGranted) {
                         writePermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                     } else {
+                        Log.d("SDK_VERSION", "El nivel de API actual es: ${Build.VERSION.SDK_INT}")
                         Toast.makeText(context, "Permiso de lectura denegado", Toast.LENGTH_SHORT).show()
                     }
                 }
@@ -205,7 +208,7 @@ fun PickImageFromGalleryDeco(
                     Text(stringResource(id = R.string.decode), color = color_azul)
                 }
 
-            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && Build.VERSION.SDK_INT <= Build.VERSION_CODES.S) {
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && Build.VERSION.SDK_INT <= Build.VERSION_CODES.S_V2) {
                 val writePermissionLauncher = rememberLauncherForActivityResult(
                     contract = ActivityResultContracts.RequestPermission()
                 ) { isGranted ->

@@ -70,11 +70,12 @@ class SteganographyUseCase @Inject constructor(
 
         val bytesMensajeEncriptado = encryptionUseCase.encrypt(message, password, userId)
         val originalImage = BitmapFactory.decodeStream(inputStream)
-        val image = originalImage.copy(originalImage.config, true)
+        val image = originalImage.copy(originalImage.config ?: Bitmap.Config.ARGB_8888, true)
 
         if (image == null) {
             return@withContext null
         }
+
         if (image.width * image.height < bytesMensajeEncriptado.size * 8) {
             return@withContext null
         }
@@ -116,10 +117,11 @@ class SteganographyUseCase @Inject constructor(
         val messageAsBytes = mutableListOf<Byte>()
         val bits = mutableListOf<Int>()
         val originalImage = BitmapFactory.decodeStream(inputStream)
-        val inputImage = originalImage.copy(originalImage.config, true)
+        val inputImage = originalImage.copy(originalImage.config ?: Bitmap.Config.ARGB_8888, true)
         if (inputImage == null) {
             return@withContext "false"
         }
+
 
         extractMessage@ for (y in 0 until inputImage.height) {
             for (x in 0 until inputImage.width) {
