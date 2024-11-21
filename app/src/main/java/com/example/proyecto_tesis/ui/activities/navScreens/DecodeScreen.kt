@@ -160,7 +160,43 @@ fun PickImageFromGalleryDeco(
             }
             Spacer(modifier = Modifier.width(10.dp))
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&Build.VERSION.SDK_INT <= Build.VERSION_CODES.VANILLA_ICE_CREAM) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                val readImagesPermissionLauncher = rememberLauncherForActivityResult(
+                    contract = ActivityResultContracts.RequestPermission()
+                ) { isGranted ->
+                    if (isGranted) {
+                        if (!imageUri?.toString().isNullOrEmpty()) {
+                            steganographyViewModel.extractEncrypt(
+                                imageUri!!.toString(),
+                                context.contentResolver
+                            )
+                        } else {
+                            Toast.makeText(
+                                context,
+                                "Debe seleccionar una imagen primero",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    } else {
+                        Toast.makeText(context, "Permiso de lectura denegado", Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+                Button(
+                    onClick = {
+                        readImagesPermissionLauncher.launch(Manifest.permission.READ_MEDIA_IMAGES)
+                    },
+                    colors = ButtonDefaults.buttonColors(containerColor = color_verde),
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.candado_abierto),
+                        contentDescription = "Decodificar imagen",
+                        tint = color_azul,
+                        modifier = Modifier.size(24.dp)
+                    )
+                    Text(stringResource(id = R.string.decode), color = color_azul)
+                }
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && Build.VERSION.SDK_INT <= Build.VERSION_CODES.S_V2) {
                 val writePermissionLauncher = rememberLauncherForActivityResult(
                     contract = ActivityResultContracts.RequestPermission()
                 ) { isGranted ->
@@ -179,7 +215,6 @@ fun PickImageFromGalleryDeco(
                         }
                     } else {
                         Toast.makeText(context, "Permiso de escritura denegado", Toast.LENGTH_SHORT).show()
-                        Log.d("SDK_VERSION", "El nivel de API actual es: ${Build.VERSION.SDK_INT}")
                     }
                 }
 
@@ -189,10 +224,10 @@ fun PickImageFromGalleryDeco(
                     if (isGranted) {
                         writePermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                     } else {
-                        Log.d("SDK_VERSION", "El nivel de API actual es: ${Build.VERSION.SDK_INT}")
                         Toast.makeText(context, "Permiso de lectura denegado", Toast.LENGTH_SHORT).show()
                     }
                 }
+
                 Button(
                     onClick = {
                         readPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -207,8 +242,8 @@ fun PickImageFromGalleryDeco(
                     )
                     Text(stringResource(id = R.string.decode), color = color_azul)
                 }
-
-            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && Build.VERSION.SDK_INT <= Build.VERSION_CODES.S_V2) {
+            }
+            else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && Build.VERSION.SDK_INT <= Build.VERSION_CODES.S_V2) {
                 val writePermissionLauncher = rememberLauncherForActivityResult(
                     contract = ActivityResultContracts.RequestPermission()
                 ) { isGranted ->
