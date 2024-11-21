@@ -217,7 +217,6 @@ fun PickImageFromGalleryDeco(
                         Toast.makeText(context, "Permiso de escritura denegado", Toast.LENGTH_SHORT).show()
                     }
                 }
-
                 val readPermissionLauncher = rememberLauncherForActivityResult(
                     contract = ActivityResultContracts.RequestPermission()
                 ) { isGranted ->
