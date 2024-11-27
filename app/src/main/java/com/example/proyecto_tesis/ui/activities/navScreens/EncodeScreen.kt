@@ -109,8 +109,7 @@ fun EncodeScreen() {
         )
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             PickImageFromGallery(steganographyViewModel, imageUtilsViewModel)
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+        }else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             PickImageFromGallery2(steganographyViewModel, imageUtilsViewModel)
         }
     }
@@ -702,6 +701,8 @@ fun ShareImageButton(uriToImage2: Uri?) {
                 showDialog = true
             }
         },
+        shape = RoundedCornerShape(size = 50.dp),
+
         colors = ButtonDefaults.buttonColors(
             disabledContainerColor = Color.Transparent,
             containerColor = Color.Transparent

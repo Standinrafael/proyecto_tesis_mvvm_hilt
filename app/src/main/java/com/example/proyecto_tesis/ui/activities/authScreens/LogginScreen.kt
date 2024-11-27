@@ -137,7 +137,7 @@ fun LogginScreen(navigation: NavController) {
             text = AnnotatedString(stringResource(id = R.string.question_create_account)),
             modifier = Modifier
                 .align(Alignment.BottomCenter)
-                .padding(20.dp),
+                .padding(80.dp),
             onClick = {
                 navigation.navigate(Routes.SignUpScreen.route)
             },
