@@ -19,3 +19,8 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+# keep Google cloud save rules
+-keep class com.google.firebase.firestore.** { *; }
+-keepnames class com.google.firestore.** { *; }
+-keepclassmembers class com.google.firestore.** { *; }
